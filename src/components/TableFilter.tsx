@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import { makeStyles, FormControlLabel, Checkbox } from "@material-ui/core";
+import { makeStyles, FormControlLabel, Checkbox, Divider } from "@material-ui/core";
 
 import { getEntryProperties } from '../types/Entry';
 
@@ -34,9 +34,22 @@ export default function TableFilter({ activeProps, setActiveProps }: { activePro
     }
   };
 
+  const handleSelectAllChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      setActiveProps(properties.map(prop => prop.id));
+    } else {
+      setActiveProps([]);
+    }
+  };
+
   return (
     <div className={classes.paper}>
       <h2>Add/Remove Columns</h2>
+      <FormControlLabel
+        control={<Checkbox checked={activeProps.length === properties.length} onChange={handleSelectAllChange} name="all" />}
+        label="All"
+      />
+      <Divider />
       {properties.map(prop => (
         <FormControlLabel
           key={prop.id}
