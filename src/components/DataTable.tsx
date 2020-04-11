@@ -8,8 +8,11 @@ import {
   TableRow,
   Paper,
   TablePagination,
-  Modal
+  Modal,
+  fade,
+  InputBase
 } from '@material-ui/core';
+import SearchIcon from '@material-ui/icons/Search';
 
 import { Entry } from '../types/Entry';
 import DataTableHead from './DataTableHead';
@@ -35,6 +38,39 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: 20,
     width: 1
+  },
+  search: {
+    position: 'relative',
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: fade(theme.palette.common.white, 0.15),
+    '&:hover': {
+      backgroundColor: fade(theme.palette.common.white, 0.25)
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: '100%',
+  },
+  searchIcon: {
+    padding: theme.spacing(0, 2),
+    height: '100%',
+    position: 'absolute',
+    pointerEvents: 'none',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  inputRoot: {
+    color: 'inherit'
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    // vertical padding + font size from searchIcon
+    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch'
+    }
   }
 }));
 
@@ -71,6 +107,7 @@ export default function DataTable({ entries }: { entries: Entry[]}) {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [detailsOpen, setDetailsOpen] = useState<Entry | null>(null);
+  const [countrySearch, setCountrySearch] = useState('');
 
   const handleRequestSort = (event: any, property: string) => {
     const isDesc = orderBy === property && order === 'desc';
@@ -87,7 +124,13 @@ export default function DataTable({ entries }: { entries: Entry[]}) {
     setPage(0);
   };
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, entries.length - page * rowsPerPage);
+  const filteredEntries = countrySearch.length < 1 ?
+    entries :
+    entries.filter(entry => entry.country.toLowerCase().includes(countrySearch.toLowerCase()));
+
+  const emptyRows =
+    rowsPerPage -
+    Math.min(rowsPerPage, filteredEntries.length - page * rowsPerPage);
 
   const handleClose = () => {
     setDetailsOpen(null);
@@ -96,6 +139,19 @@ export default function DataTable({ entries }: { entries: Entry[]}) {
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
+        <div className={classes.search}>
+          <div className={classes.searchIcon}>
+            <SearchIcon />
+          </div>
+          <InputBase
+            placeholder="Search..."
+            classes={{
+              root: classes.inputRoot,
+              input: classes.inputInput,
+            }}
+            onChange={ev => setCountrySearch(ev.target.value)}
+          />
+        </div>
         <TableContainer>
           <Table
             className={classes.table}
@@ -107,10 +163,10 @@ export default function DataTable({ entries }: { entries: Entry[]}) {
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
-              rowCount={entries.length}
+              rowCount={filteredEntries.length}
             />
             <TableBody>
-              {stableSort(entries, getComparator(order, orderBy))
+              {stableSort(filteredEntries, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((entry: Entry, index) => (
                   <TableRow
@@ -119,8 +175,15 @@ export default function DataTable({ entries }: { entries: Entry[]}) {
                     key={entry.country}
                     onClick={() => setDetailsOpen(entry)}
                   >
-                    <TableCell align="left" style={{ display: 'flex', alignItems: 'center' }}>
-                      <img style={{ height: 20, marginRight: 10 }} src={entry.countryInfo.flag} alt={entry.country} />
+                    <TableCell
+                      align="left"
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <img
+                        style={{ height: 20, marginRight: 10 }}
+                        src={entry.countryInfo.flag}
+                        alt={entry.country}
+                      />
                       {entry.country}
                     </TableCell>
                     <TableCell align="right">{entry.cases}</TableCell>
@@ -140,7 +203,7 @@ export default function DataTable({ entries }: { entries: Entry[]}) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={entries.length}
+          count={filteredEntries.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
