@@ -156,7 +156,7 @@ export default function DataTable({ entries }: { entries: Entry[]}) {
               root: classes.inputRoot,
               input: classes.inputInput,
             }}
-            onChange={ev => setCountrySearch(ev.target.value)}
+            onChange={(ev) => setCountrySearch(ev.target.value)}
           />
         </div>
         <TableContainer>
@@ -197,6 +197,7 @@ export default function DataTable({ entries }: { entries: Entry[]}) {
                     <TableCell align="right">{entry.todayCases}</TableCell>
                     <TableCell align="right">{entry.deaths}</TableCell>
                     <TableCell align="right">{entry.todayDeaths}</TableCell>
+                    <TableCell align="right">{entry.recovered}</TableCell>
                   </TableRow>
                 ))}
               {emptyRows > 0 && (
