@@ -28,7 +28,14 @@ function App() {
       left: 0,
       right: 0,
       bottom: 0,
+      display: 'flex',
+      flexDirection: 'column'
     },
+    container: {
+      flex: '1 1 auto',
+      position: 'relative',
+      padding: 10
+    }
   });
 
   const classes = useStyles();
@@ -56,7 +63,7 @@ function App() {
       <BrowserRouter>
         <div className={classes.root}>
           <Navbar darkMode={darkMode} setDarkMode={handleDarkModeChange} />
-          <div style={{ padding: 10 }}>
+          <div className={classes.container}>
             <Switch>
               <Route path="/" exact>
                 {entries && entries.length > 0 ? (
