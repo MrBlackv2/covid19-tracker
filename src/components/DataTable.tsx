@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     overflow: 'auto',
-    height: '100%',
+    maxHeight: '100%',
     width: '100%'
   },
   table: {
