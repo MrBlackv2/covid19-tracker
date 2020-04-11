@@ -70,7 +70,7 @@ export default function Charts({ entries }: { entries: Entry[]}) {
           <XAxis dataKey="country" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey={property} />
+          <Bar dataKey={property} fill="#8884d8" />
         </BarChart>
       </ResponsiveContainer>
     </Paper>
