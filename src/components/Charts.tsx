@@ -42,7 +42,13 @@ export default function Charts({ entries }: { entries: Entry[]}) {
   const sortedEntries = entries
     .slice()
     .sort((a: any, b: any) => a[property] < b[property] ? 1 : a[property] > b[property] ? -1 : 0)
-    .filter((val, idx) => idx < showEntries);
+    .filter((val, idx) => {
+      if (showEntries > 0) {
+        return idx < showEntries;
+      } else {
+        return idx >= entries.length + showEntries;
+      }
+    });
 
   return (
     <Paper className={classes.chartContainer}>
@@ -61,8 +67,12 @@ export default function Charts({ entries }: { entries: Entry[]}) {
           <InputLabel>View</InputLabel>
           <Select value={showEntries} onChange={(ev: any) => setShowEntries(ev.target.value)}>
             <MenuItem value={10}>Top 10</MenuItem>
-            <MenuItem value={20}>Top 20</MenuItem>
+            <MenuItem value={20}>Top 25</MenuItem>
             <MenuItem value={50}>Top 50</MenuItem>
+            <MenuItem value={-10}>Bottom 10</MenuItem>
+            <MenuItem value={-25}>Bottom 25</MenuItem>
+            <MenuItem value={-50}>Bottom 50</MenuItem>
+            <MenuItem value={1000}>All</MenuItem>
           </Select>
         </FormControl>
       </div>
