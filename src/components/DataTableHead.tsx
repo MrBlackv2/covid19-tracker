@@ -1,13 +1,19 @@
 import React from 'react';
 import { TableHead, TableRow, TableCell, TableSortLabel } from '@material-ui/core';
 
-const headCells: { id: string, numeric: boolean, label: string }[] = [
+const headCells: { id: string; numeric: boolean; label: string }[] = [
   { id: "country", numeric: false, label: "Country" },
   { id: "cases", numeric: true, label: "Cases" },
   { id: "todayCases", numeric: true, label: "Cases (Today)" },
+  { id: "casesPerOneMillion", numeric: true, label: "Cases per Million" },
   { id: "deaths", numeric: true, label: "Deaths" },
   { id: "todayDeaths", numeric: true, label: "Deaths (Today)" },
-  { id: 'recovered', numeric: true, label: 'Recovered' }
+  { id: "deathsPerOneMillion", numeric: true, label: "Deaths per Million" },
+  { id: "recovered", numeric: true, label: "Recovered" },
+  { id: "active", numeric: true, label: "Active" },
+  { id: "critical", numeric: true, label: "Critical" },
+  { id: "tests", numeric: true, label: "Tests" },
+  { id: "testsPerOneMillion", numeric: true, label: "Tests per Million" },
 ];
 
 export default function DataTableHead({ classes, order, orderBy, onRequestSort, rowCount }: { classes: any, order: 'asc' | 'desc', orderBy: string, onRequestSort: Function, rowCount: number }) {

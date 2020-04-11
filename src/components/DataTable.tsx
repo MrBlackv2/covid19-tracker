@@ -195,9 +195,15 @@ export default function DataTable({ entries }: { entries: Entry[]}) {
                     </TableCell>
                     <TableCell align="right">{entry.cases}</TableCell>
                     <TableCell align="right">{entry.todayCases}</TableCell>
+                    <TableCell align="right">{entry.casesPerOneMillion}</TableCell>
                     <TableCell align="right">{entry.deaths}</TableCell>
                     <TableCell align="right">{entry.todayDeaths}</TableCell>
+                    <TableCell align="right">{entry.deathsPerOneMillion}</TableCell>
                     <TableCell align="right">{entry.recovered}</TableCell>
+                    <TableCell align="right">{entry.active}</TableCell>
+                    <TableCell align="right">{entry.critical}</TableCell>
+                    <TableCell align="right">{entry.tests}</TableCell>
+                    <TableCell align="right">{entry.testsPerOneMillion}</TableCell>
                   </TableRow>
                 ))}
               {emptyRows > 0 && (
