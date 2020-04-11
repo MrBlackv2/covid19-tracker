@@ -34,7 +34,7 @@ function App() {
     container: {
       flex: '1 1 auto',
       position: 'relative',
-      padding: 10
+      margin: 10
     }
   });
 
