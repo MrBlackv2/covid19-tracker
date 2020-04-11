@@ -27,13 +27,13 @@ export default function CountryDetail({ entry }: { entry: Entry }) {
       <div>
         <div>Cases: {entry.cases}</div>
         <div>Cases (Today): {entry.todayCases}</div>
+        <div>Cases per Million: {entry.casesPerOneMillion}</div>
         <div>Deaths: {entry.deaths}</div>
         <div>Deaths (Today): {entry.todayDeaths}</div>
+        <div>Deaths per Million: {entry.deathsPerOneMillion}</div>
         <div>Recovered: {entry.recovered}</div>
         <div>Active: {entry.active}</div>
         <div>Critical: {entry.critical}</div>
-        <div>Cases per Million: {entry.casesPerOneMillion}</div>
-        <div>Deaths per Million: {entry.deathsPerOneMillion}</div>
         <div>Tests: {entry.tests}</div>
         <div>Tests per Million: {entry.testsPerOneMillion}</div>
       </div>
