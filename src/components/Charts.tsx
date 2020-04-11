@@ -36,7 +36,8 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     bottom: 0,
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    overflow: 'hidden'
   },
   chart: {
     flex: '1 1 auto',
