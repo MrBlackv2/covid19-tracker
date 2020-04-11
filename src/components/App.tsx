@@ -66,11 +66,7 @@ function App() {
           <div className={classes.container}>
             <Switch>
               <Route path="/" exact>
-                {entries && entries.length > 0 ? (
-                  <DataTable entries={entries} />
-                ) : (
-                  <div>Loading...</div>
-                )}
+                <DataTable entries={entries} />
               </Route>
               <Route path="/charts">
                 <Charts entries={entries} />
