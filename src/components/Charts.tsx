@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import {
   BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer
 } from 'recharts';
@@ -37,31 +37,32 @@ export default function Charts({ entries }: { entries: Entry[]}) {
   const classes  = useStyles();
   const [detailsOpen, setDetailsOpen] = useState<Entry | null>(null);
   const [property, setProperty] = useState(properties[0].id);
+  const [showEntries, setShowEntries] = useState(10);
 
   const sortedEntries = entries
     .slice()
     .sort((a: any, b: any) => a[property] < b[property] ? 1 : a[property] > b[property] ? -1 : 0)
-    .filter((val, idx) => idx < 10);
-
-  const handleChange = (event: any) => {
-    setProperty(event.target.value);
-  };
-
-  const handleClose = () => {
-    setDetailsOpen(null);
-  };
+    .filter((val, idx) => idx < showEntries);
 
   return (
     <Paper className={classes.chartContainer}>
       <div>
         <FormControl className={classes.formControl}>
           <InputLabel>Metric</InputLabel>
-          <Select value={property} onChange={handleChange}>
+          <Select value={property} onChange={(ev: any) => setProperty(ev.target.value)}>
             {properties.map((prop) => (
               <MenuItem value={prop.id} key={prop.id}>
                 {prop.name}
               </MenuItem>
             ))}
+          </Select>
+        </FormControl>
+        <FormControl className={classes.formControl}>
+          <InputLabel>View</InputLabel>
+          <Select value={showEntries} onChange={(ev: any) => setShowEntries(ev.target.value)}>
+            <MenuItem value={10}>Top 10</MenuItem>
+            <MenuItem value={20}>Top 20</MenuItem>
+            <MenuItem value={50}>Top 50</MenuItem>
           </Select>
         </FormControl>
       </div>
@@ -80,7 +81,7 @@ export default function Charts({ entries }: { entries: Entry[]}) {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="country" />
             <YAxis />
-            <Tooltip labelStyle={{ color: 'black' }} />
+            <Tooltip labelStyle={{ color: "black" }} />
             <Bar
               dataKey={property}
               fill="#8884d8"
@@ -90,7 +91,7 @@ export default function Charts({ entries }: { entries: Entry[]}) {
         </ResponsiveContainer>
       </div>
 
-      <Modal open={detailsOpen !== null} onClose={handleClose}>
+      <Modal open={detailsOpen !== null} onClose={() => setDetailsOpen(null)}>
         <div>
           <CountryDetail entry={detailsOpen as Entry} />
         </div>
