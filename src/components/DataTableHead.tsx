@@ -16,7 +16,7 @@ const headCells: { id: string; numeric: boolean; label: string }[] = [
   { id: "testsPerOneMillion", numeric: true, label: "Tests per Million" },
 ];
 
-export default function DataTableHead({ classes, order, orderBy, onRequestSort, rowCount }: { classes: any, order: 'asc' | 'desc', orderBy: string, onRequestSort: Function, rowCount: number }) {
+export default function DataTableHead({ activeProps, classes, order, orderBy, onRequestSort }: { activeProps: string[], classes: any, order: 'asc' | 'desc', orderBy: string, onRequestSort: Function }) {
   const createSortHandler = (property: string) => (event: any) => {
     onRequestSort(event, property)
   };
@@ -24,7 +24,7 @@ export default function DataTableHead({ classes, order, orderBy, onRequestSort, 
   return (
     <TableHead>
       <TableRow>
-        {headCells.map((headCell) => (
+        {headCells.filter(cell => activeProps.includes(cell.id) || cell.id === 'country').map((headCell) => (
           <TableCell
             key={headCell.id}
             align={headCell.numeric ? 'right' : 'left'}

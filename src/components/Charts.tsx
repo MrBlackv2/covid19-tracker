@@ -3,23 +3,11 @@ import {
   BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer
 } from 'recharts';
 
-import { Entry } from '../types/Entry';
+import { Entry, getEntryProperties } from '../types/Entry';
 import { Paper, makeStyles, FormControl, InputLabel, Select, MenuItem, Modal } from '@material-ui/core';
 import CountryDetail from './CountryDetail';
 
-const properties = [
-  { id: "cases", name: "Cases" },
-  { id: "todayCases", name: "Cases (Today)" },
-  { id: "deaths", name: "Deaths" },
-  { id: "todayDeaths", name: "Deaths (Today)" },
-  { id: "recovered", name: "Recovered" },
-  { id: "active", name: "Active" },
-  { id: "critical", name: "Critical" },
-  { id: "casesPerOneMillion", name: "Cases per Million" },
-  { id: "deathsPerOneMillion", name: "Deaths per Million" },
-  { id: "tests", name: "Tests" },
-  { id: "testsPerOneMillion", name: "Tests per Million" }
-];
+const properties = getEntryProperties();
 
 const useStyles = makeStyles((theme) => ({
   formControl: {

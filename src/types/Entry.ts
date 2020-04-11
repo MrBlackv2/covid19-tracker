@@ -21,3 +21,19 @@ export interface Entry {
   tests: number;
   testsPerOneMillion: number;
 }
+
+export function getEntryProperties(): { id: string, name: string }[] {
+  return [
+    { id: "cases", name: "Cases" },
+    { id: "todayCases", name: "Cases (Today)" },
+    { id: "casesPerOneMillion", name: "Cases per Million" },
+    { id: "deaths", name: "Deaths" },
+    { id: "todayDeaths", name: "Deaths (Today)" },
+    { id: "deathsPerOneMillion", name: "Deaths per Million" },
+    { id: "recovered", name: "Recovered" },
+    { id: "active", name: "Active" },
+    { id: "critical", name: "Critical" },
+    { id: "tests", name: "Tests" },
+    { id: "testsPerOneMillion", name: "Tests per Million" },
+  ];
+}

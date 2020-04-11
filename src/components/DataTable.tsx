@@ -10,13 +10,17 @@ import {
   TablePagination,
   Modal,
   fade,
-  InputBase
+  InputBase,
+  Button
 } from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
+import FilterIcon from '@material-ui/icons/FilterList';
 
-import { Entry } from '../types/Entry';
+import { Entry, getEntryProperties } from '../types/Entry';
 import DataTableHead from './DataTableHead';
 import CountryDetail from './CountryDetail';
+import TableFilter from './TableFilter';
+import DataTableRow from './DataTableRow';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,6 +35,10 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     maxHeight: '100%',
     width: '100%'
+  },
+  toolbar: {
+    display: 'flex',
+    alignItems: 'center'
   },
   table: {
     minWidth: 750
@@ -107,6 +115,8 @@ function stableSort(array: any[], comparator: Function) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+const properties = getEntryProperties();
+
 export default function DataTable({ entries }: { entries: Entry[]}) {
   const classes = useStyles();
   const [order, setOrder] = useState<'asc' | 'desc'>('desc');
@@ -115,6 +125,8 @@ export default function DataTable({ entries }: { entries: Entry[]}) {
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [detailsOpen, setDetailsOpen] = useState<Entry | null>(null);
   const [countrySearch, setCountrySearch] = useState('');
+  const [filterOpen, setFilterOpen] = useState(false);
+  const [activeProps, setActiveProps] = useState(properties.map(prop => prop.id));
 
   const handleRequestSort = (event: any, property: string) => {
     const isDesc = orderBy === property && order === 'desc';
@@ -139,25 +151,26 @@ export default function DataTable({ entries }: { entries: Entry[]}) {
     rowsPerPage -
     Math.min(rowsPerPage, filteredEntries.length - page * rowsPerPage);
 
-  const handleClose = () => {
-    setDetailsOpen(null);
-  };
-
   return (
     <div className={classes.root}>
       <Paper className={classes.paper}>
-        <div className={classes.search}>
-          <div className={classes.searchIcon}>
-            <SearchIcon />
+        <div className={classes.toolbar}>
+          <div className={classes.search}>
+            <div className={classes.searchIcon}>
+              <SearchIcon />
+            </div>
+            <InputBase
+              placeholder="Search..."
+              classes={{
+                root: classes.inputRoot,
+                input: classes.inputInput,
+              }}
+              onChange={(ev) => setCountrySearch(ev.target.value)}
+            />
           </div>
-          <InputBase
-            placeholder="Search..."
-            classes={{
-              root: classes.inputRoot,
-              input: classes.inputInput,
-            }}
-            onChange={(ev) => setCountrySearch(ev.target.value)}
-          />
+          <Button onClick={() => setFilterOpen(true)}>
+            <FilterIcon />
+          </Button>
         </div>
         <TableContainer>
           <Table
@@ -166,45 +179,17 @@ export default function DataTable({ entries }: { entries: Entry[]}) {
             aria-label="table"
           >
             <DataTableHead
+              activeProps={activeProps}
               classes={classes}
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
-              rowCount={filteredEntries.length}
             />
             <TableBody>
               {stableSort(filteredEntries, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((entry: Entry, index) => (
-                  <TableRow
-                    hover
-                    tabIndex={-1}
-                    key={entry.country}
-                    onClick={() => setDetailsOpen(entry)}
-                  >
-                    <TableCell
-                      align="left"
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <img
-                        style={{ height: 20, marginRight: 10 }}
-                        src={entry.countryInfo.flag}
-                        alt={entry.country}
-                      />
-                      {entry.country}
-                    </TableCell>
-                    <TableCell align="right">{entry.cases}</TableCell>
-                    <TableCell align="right">{entry.todayCases}</TableCell>
-                    <TableCell align="right">{entry.casesPerOneMillion}</TableCell>
-                    <TableCell align="right">{entry.deaths}</TableCell>
-                    <TableCell align="right">{entry.todayDeaths}</TableCell>
-                    <TableCell align="right">{entry.deathsPerOneMillion}</TableCell>
-                    <TableCell align="right">{entry.recovered}</TableCell>
-                    <TableCell align="right">{entry.active}</TableCell>
-                    <TableCell align="right">{entry.critical}</TableCell>
-                    <TableCell align="right">{entry.tests}</TableCell>
-                    <TableCell align="right">{entry.testsPerOneMillion}</TableCell>
-                  </TableRow>
+                  <DataTableRow key={entry.country} entry={entry} activeProps={activeProps} setDetailsOpen={setDetailsOpen} />
                 ))}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>
@@ -224,9 +209,14 @@ export default function DataTable({ entries }: { entries: Entry[]}) {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </Paper>
-      <Modal open={detailsOpen !== null} onClose={handleClose}>
+      <Modal open={detailsOpen !== null} onClose={() => setDetailsOpen(null)}>
         <div>
           <CountryDetail entry={detailsOpen as Entry} />
+        </div>
+      </Modal>
+      <Modal open={filterOpen} onClose={() => setFilterOpen(false)}>
+        <div>
+          <TableFilter activeProps={activeProps} setActiveProps={setActiveProps} />
         </div>
       </Modal>
     </div>
