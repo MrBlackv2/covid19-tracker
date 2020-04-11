@@ -5,16 +5,21 @@ import {
   Button,
   Toolbar,
   Typography,
-  makeStyles
+  makeStyles,
+  Switch
 } from '@material-ui/core';
+import Brightness3Icon from '@material-ui/icons/Brightness3';
 
 const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1
+  },
+  darkSwitch: {
+    marginLeft: theme.spacing(2)
   }
 }));
 
-export default function Navbar() {
+export default function Navbar({ darkMode, setDarkMode }: { darkMode: boolean, setDarkMode: Function }) {
   const classes = useStyles();
 
   return (
@@ -33,6 +38,12 @@ export default function Navbar() {
             Charts
           </Link>
         </Button>
+        <Switch
+          className={classes.darkSwitch}
+          checked={darkMode}
+          onChange={(ev) => setDarkMode(ev.target.checked)}
+        />
+        <Brightness3Icon />
       </Toolbar>
     </AppBar>
   );
