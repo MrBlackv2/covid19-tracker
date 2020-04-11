@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import { Entry } from '../types/Entry';
 import DataTable from './DataTable';
 import Navbar from './Navbar';
+import Charts from './Charts';
 
 function App() {
   const [entries, setEntries] = useState<Entry[]>([]);
@@ -23,16 +25,25 @@ function App() {
   }, []);
 
   return (
-    <div>
-      <Navbar />
-      <div style={{ padding: 10 }}>
-        {entries && entries.length > 0 ? (
-          <DataTable entries={entries} />
-        ) : (
-          <div>Loading...</div>
-        )}
+    <BrowserRouter>
+      <div>
+        <Navbar />
+        <div style={{ padding: 10 }}>
+          <Switch>
+            <Route path="/" exact>
+              {entries && entries.length > 0 ? (
+                <DataTable entries={entries} />
+              ) : (
+                <div>Loading...</div>
+              )}
+            </Route>
+            <Route path="/charts">
+              <Charts entries={entries} />
+            </Route>
+          </Switch>
+        </div>
       </div>
-    </div>
+    </BrowserRouter>
   );
 }
 
