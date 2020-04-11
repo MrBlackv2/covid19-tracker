@@ -4,7 +4,8 @@ import {
 } from 'recharts';
 
 import { Entry } from '../types/Entry';
-import { Paper, makeStyles, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import { Paper, makeStyles, FormControl, InputLabel, Select, MenuItem, Modal } from '@material-ui/core';
+import CountryDetail from './CountryDetail';
 
 const properties = [
   { id: "cases", name: "Cases" },
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Charts({ entries }: { entries: Entry[]}) {
   const classes  = useStyles();
-  const [chart, setChart] = useState('bar');
+  const [detailsOpen, setDetailsOpen] = useState<Entry | null>(null);
   const [property, setProperty] = useState(properties[0].id);
 
   const sortedEntries = entries
@@ -42,6 +43,10 @@ export default function Charts({ entries }: { entries: Entry[]}) {
 
   const handleChange = (event: any) => {
     setProperty(event.target.value);
+  };
+
+  const handleClose = () => {
+    setDetailsOpen(null);
   };
 
   return (
@@ -70,9 +75,14 @@ export default function Charts({ entries }: { entries: Entry[]}) {
           <XAxis dataKey="country" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey={property} fill="#8884d8" />
+          <Bar dataKey={property} fill="#8884d8" onClick={entry => setDetailsOpen(entry)} />
         </BarChart>
       </ResponsiveContainer>
+      <Modal open={detailsOpen !== null} onClose={handleClose}>
+        <div>
+          <CountryDetail entry={detailsOpen as Entry} />
+        </div>
+      </Modal>
     </Paper>
   );
 }

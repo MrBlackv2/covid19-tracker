@@ -34,7 +34,6 @@ function App() {
   const classes = useStyles();
 
   const loadEntries = () => {
-    console.log('loading...');
     fetch('https://corona.lmao.ninja/countries?sort=cases')
       .then(res => res.json())
       .then(entries => setEntries(entries))
