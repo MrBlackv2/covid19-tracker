@@ -6,7 +6,8 @@ import { makeStyles } from '@material-ui/core';
 const useStyles = makeStyles((theme) => ({
   paper: {
     position: "absolute",
-    width: 400,
+    minWidth: 300,
+    maxWidth: '95%',
     backgroundColor: theme.palette.background.paper,
     color: theme.palette.text.primary,
     border: "2px solid #000",
