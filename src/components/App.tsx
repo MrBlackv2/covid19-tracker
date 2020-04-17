@@ -41,7 +41,7 @@ function App() {
   const classes = useStyles();
 
   const loadEntries = () => {
-    fetch('https://corona.lmao.ninja/countries?sort=cases')
+    fetch('https://corona.lmao.ninja/v2/countries?sort=cases')
       .then(res => res.json())
       .then(entries => setEntries(entries))
       .catch(err => console.error(err));
