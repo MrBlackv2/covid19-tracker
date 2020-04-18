@@ -119,8 +119,8 @@ function stableSort(array: any[], comparator: Function) {
 
 export default function DataTable({ rows, headCells, allProps, search, idKey, headCell }: { rows: any[], headCells: TableHeadCell[], allProps: FilterProp[], search: Function, idKey: string, headCell: any }) {
   const classes = useStyles();
-  const [order, setOrder] = useState<'asc' | 'desc'>('desc');
-  const [orderBy, setOrderBy] = useState('cases');
+  const [order, setOrder] = useState<'asc' | 'desc'>('asc');
+  const [orderBy, setOrderBy] = useState(idKey);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [detailsOpen, setDetailsOpen] = useState<Entry | null>(null);
