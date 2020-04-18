@@ -29,8 +29,13 @@ export default function Navbar({ darkMode, setDarkMode }: { darkMode: boolean, s
           Corona Tracker
         </Typography>
         <Button color="inherit">
-          <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-            Table
+          <Link to="/states" style={{ textDecoration: "none", color: "white" }}>
+            States
+          </Link>
+        </Button>
+        <Button color="inherit">
+          <Link to="/world" style={{ textDecoration: "none", color: "white" }}>
+            World
           </Link>
         </Button>
         <Button color="inherit">

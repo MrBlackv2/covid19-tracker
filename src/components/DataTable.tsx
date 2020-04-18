@@ -16,11 +16,13 @@ import {
 import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/FilterList';
 
-import { Entry, getEntryProperties } from '../types/Entry';
+import { Entry } from '../types/Entry';
 import DataTableHead from './DataTableHead';
 import CountryDetail from './CountryDetail';
 import TableFilter from './TableFilter';
 import DataTableRow from './DataTableRow';
+import { TableHeadCell } from '../types/TableHeadCell';
+import { FilterProp } from '../types/FilterProp';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -115,18 +117,16 @@ function stableSort(array: any[], comparator: Function) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-const properties = getEntryProperties();
-
-export default function DataTable({ entries }: { entries: Entry[]}) {
+export default function DataTable({ rows, headCells, allProps, search, idKey, headCell }: { rows: any[], headCells: TableHeadCell[], allProps: FilterProp[], search: Function, idKey: string, headCell: any }) {
   const classes = useStyles();
   const [order, setOrder] = useState<'asc' | 'desc'>('desc');
   const [orderBy, setOrderBy] = useState('cases');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [detailsOpen, setDetailsOpen] = useState<Entry | null>(null);
-  const [countrySearch, setCountrySearch] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
   const [filterOpen, setFilterOpen] = useState(false);
-  const [activeProps, setActiveProps] = useState(properties.map(prop => prop.id));
+  const [activeProps, setActiveProps] = useState(allProps.map(prop => prop.id));
 
   const handleRequestSort = (event: any, property: string) => {
     const isDesc = orderBy === property && order === 'desc';
@@ -143,13 +143,13 @@ export default function DataTable({ entries }: { entries: Entry[]}) {
     setPage(0);
   };
 
-  const filteredEntries = countrySearch.length < 1 ?
-    entries :
-    entries.filter(entry => entry.country.toLowerCase().includes(countrySearch.toLowerCase()));
+  const searchedRows = searchTerm.length < 1 ?
+    rows :
+    search(rows, searchTerm);
 
   const emptyRows =
     rowsPerPage -
-    Math.min(rowsPerPage, filteredEntries.length - page * rowsPerPage);
+    Math.min(rowsPerPage, searchedRows.length - page * rowsPerPage);
 
   return (
     <div className={classes.root}>
@@ -165,7 +165,7 @@ export default function DataTable({ entries }: { entries: Entry[]}) {
                 root: classes.inputRoot,
                 input: classes.inputInput,
               }}
-              onChange={(ev) => setCountrySearch(ev.target.value)}
+              onChange={(ev) => setSearchTerm(ev.target.value)}
             />
           </div>
           <Button onClick={() => setFilterOpen(true)}>
@@ -179,17 +179,17 @@ export default function DataTable({ entries }: { entries: Entry[]}) {
             aria-label="table"
           >
             <DataTableHead
-              activeProps={activeProps}
+              headCells={headCells.filter(cell => activeProps.includes(cell.id) || cell.id === idKey)}
               classes={classes}
               order={order}
               orderBy={orderBy}
               onRequestSort={handleRequestSort}
             />
             <TableBody>
-              {stableSort(filteredEntries, getComparator(order, orderBy))
+              {stableSort(searchedRows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((entry: Entry, index) => (
-                  <DataTableRow key={entry.country} entry={entry} activeProps={activeProps} setDetailsOpen={setDetailsOpen} />
+                .map((row: any, index) => (
+                  <DataTableRow key={row[idKey]} row={row} activeProps={activeProps} setDetailsOpen={setDetailsOpen} headCell={headCell} />
                 ))}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>
@@ -202,7 +202,7 @@ export default function DataTable({ entries }: { entries: Entry[]}) {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={filteredEntries.length}
+          count={searchedRows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}
@@ -216,7 +216,7 @@ export default function DataTable({ entries }: { entries: Entry[]}) {
       </Modal>
       <Modal open={filterOpen} onClose={() => setFilterOpen(false)}>
         <div>
-          <TableFilter activeProps={activeProps} setActiveProps={setActiveProps} />
+          <TableFilter activeProps={activeProps} setActiveProps={setActiveProps} allProps={allProps} />
         </div>
       </Modal>
     </div>

@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { ThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import { green, blue } from "@material-ui/core/colors";
 
-import { Entry } from '../types/Entry';
-import DataTable from './DataTable';
 import Navbar from './Navbar';
-import Charts from './Charts';
+import WorldPage from './WorldPage';
+import ChartsPage from './ChartsPage';
+import StatesPage from './StatesPage';
 
 function App() {
-  const [entries, setEntries] = useState<Entry[]>([]);
   const [darkMode, setDarkMode] = useState(false);
 
   const theme = createMuiTheme({
@@ -40,23 +39,9 @@ function App() {
 
   const classes = useStyles();
 
-  const loadEntries = () => {
-    fetch('https://corona.lmao.ninja/v2/countries?sort=cases')
-      .then(res => res.json())
-      .then(entries => setEntries(entries))
-      .catch(err => console.error(err));
-  }
-
   const handleDarkModeChange = (dark: boolean) => {
     setDarkMode(dark);
   };
-
-  useEffect(() => {
-    loadEntries();
-    setInterval(() => {
-      loadEntries();
-    }, 60000);
-  }, []);
 
   return (
     <ThemeProvider theme={theme}>
@@ -65,12 +50,10 @@ function App() {
           <Navbar darkMode={darkMode} setDarkMode={handleDarkModeChange} />
           <div className={classes.container}>
             <Switch>
-              <Route path="/" exact>
-                <DataTable entries={entries} />
-              </Route>
-              <Route path="/charts">
-                <Charts entries={entries} />
-              </Route>
+              <Redirect exact path="/" to="/states" />
+              <Route path="/world" component={WorldPage} />
+              <Route path="/charts" component={ChartsPage} />
+              <Route path="/states" component={StatesPage} />
             </Switch>
           </div>
         </div>

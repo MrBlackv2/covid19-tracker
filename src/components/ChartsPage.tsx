@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer
 } from 'recharts';
@@ -33,11 +33,26 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Charts({ entries }: { entries: Entry[]}) {
+export default function ChartsPage() {
   const classes  = useStyles();
   const [detailsOpen, setDetailsOpen] = useState<Entry | null>(null);
   const [property, setProperty] = useState(properties[0].id);
   const [showEntries, setShowEntries] = useState(10);
+  const [entries, setEntries] = useState<Entry[]>([]);
+
+  const loadEntries = () => {
+    fetch('https://corona.lmao.ninja/v2/countries?sort=cases')
+      .then(res => res.json())
+      .then(entries => setEntries(entries))
+      .catch(err => console.error(err));
+  }
+
+  useEffect(() => {
+    loadEntries();
+    setInterval(() => {
+      loadEntries();
+    }, 60000);
+  }, []);
 
   const sortedEntries = entries
     .slice()

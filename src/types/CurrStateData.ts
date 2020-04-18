@@ -28,3 +28,20 @@ export interface CurrStateData {
   notes: string;
   hash: string;
 }
+
+export function getCurrStateProps(): { id: string, name: string }[] {
+  return [
+    { id: "positive", name: "Positive" },
+    { id: "negative", name: "Negative" },
+    { id: "grade", name: "Grade" },
+    { id: "score", name: "Score" },
+    { id: "hospitalizedCurrently", name: "Hospitalized (Current)" },
+    { id: "hospitalizedCumulative", name: "Hospitalized (Cum.)" },
+    { id: "inIcuCurrently", name: "In ICU (Current)" },
+    { id: "inIcuCumulative", name: "In ICU (Cum.)" },
+    { id: "onVentilatorCurrently", name: "On Ventilator (Current)" },
+    { id: "recovered", name: "On Ventilator (Cum.)" },
+    { id: "death", name: "Deaths" },
+    { id: "totalTestResults", name: "Total Tests" },
+  ];
+}
