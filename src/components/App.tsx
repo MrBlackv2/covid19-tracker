@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { ThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import { green, blue } from "@material-ui/core/colors";
 
@@ -55,7 +55,7 @@ function App() {
     loadEntries();
     setInterval(() => {
       loadEntries();
-    }, 15000);
+    }, 60000);
   }, []);
 
   return (
