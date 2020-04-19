@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function ChartsPage() {
+export default function WorldChartsPage() {
   const classes  = useStyles();
   const [detailsOpen, setDetailsOpen] = useState<WorldData | null>(null);
   const [property, setProperty] = useState(properties[0].id);
@@ -104,7 +104,7 @@ export default function ChartsPage() {
             data={sortedEntries}
             margin={{
               top: 5,
-              right: 30,
+              right:20,
               left: 20,
               bottom: 5,
             }}

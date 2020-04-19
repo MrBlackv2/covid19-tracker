@@ -7,7 +7,7 @@ import { green, blue } from "@material-ui/core/colors";
 
 import Navbar from './Navbar';
 import WorldPage from './WorldPage';
-import ChartsPage from './ChartsPage';
+import WorldChartsPage from './WorldChartsPage';
 import StatesPage from './StatesPage';
 import AppDrawer from './AppDrawer';
 
@@ -104,7 +104,7 @@ function App() {
             <Switch>
               <Redirect exact path="/" to="/states" />
               <Route path="/world" component={WorldPage} />
-              <Route path="/charts" component={ChartsPage} />
+              <Route path="/charts" component={WorldChartsPage} />
               <Route path="/states" component={StatesPage} />
             </Switch>
           </div>
