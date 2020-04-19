@@ -1,52 +1,65 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import {
   AppBar,
-  Button,
   Toolbar,
   Typography,
-  makeStyles,
-  Switch
+  Switch,
+  IconButton
 } from '@material-ui/core';
+import { makeStyles, createStyles } from '@material-ui/core/styles';
 import Brightness3Icon from '@material-ui/icons/Brightness3';
+import MenuIcon from '@material-ui/icons/Menu';
 
-const useStyles = makeStyles((theme) => ({
-  title: {
-    flexGrow: 1
-  },
-  darkSwitch: {
-    marginLeft: theme.spacing(2)
-  }
-}));
+interface NavBarProps {
+  darkMode: boolean;
+  handleDarkModeChange: Function;
+  handleDrawerToggle: any;
+  drawerWidth: number;
+}
 
-export default function Navbar({ darkMode, setDarkMode }: { darkMode: boolean, setDarkMode: Function }) {
+export default function Navbar({ darkMode, handleDarkModeChange, handleDrawerToggle, drawerWidth }: NavBarProps) {
+  const useStyles = makeStyles((theme) => createStyles({
+    title: {
+      flexGrow: 1
+    },
+    darkSwitch: {
+      marginLeft: theme.spacing(2)
+    },
+    appBar: {
+      [theme.breakpoints.up('sm')]: {
+        width: `calc(100% - ${drawerWidth}px)`,
+        marginLeft: drawerWidth
+      }
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+      [theme.breakpoints.up('sm')]: {
+        display: 'none'
+      }
+    }
+  }));
+
   const classes = useStyles();
 
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" className={classes.appBar}>
       <Toolbar>
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          onClick={handleDrawerToggle}
+          className={classes.menuButton}
+        >
+          <MenuIcon />
+        </IconButton>
         <Typography variant="h6" className={classes.title}>
           Corona Tracker
         </Typography>
-        <Button color="inherit">
-          <Link to="/states" style={{ textDecoration: "none", color: "white" }}>
-            States
-          </Link>
-        </Button>
-        <Button color="inherit">
-          <Link to="/world" style={{ textDecoration: "none", color: "white" }}>
-            World
-          </Link>
-        </Button>
-        <Button color="inherit">
-          <Link to="/charts" style={{ textDecoration: "none", color: "white" }}>
-            Charts
-          </Link>
-        </Button>
         <Switch
           className={classes.darkSwitch}
           checked={darkMode}
-          onChange={(ev) => setDarkMode(ev.target.checked)}
+          onChange={(ev) => handleDarkModeChange(ev.target.checked)}
         />
         <Brightness3Icon />
       </Toolbar>
