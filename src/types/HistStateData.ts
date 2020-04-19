@@ -1,5 +1,5 @@
 export interface HistStateData {
-  date: number,
+  date: Date;
   state: string;
   positive: number;
   negative: number;
@@ -24,4 +24,21 @@ export interface HistStateData {
   negativeIncrease: number;
   positiveIncrease: number;
   totalTestResultsIncrease: number;
+}
+
+export function getHistStateProps(): { id: string, name: string }[] {
+  return [
+    { id: "positive", name: "Positive" },
+    { id: "negative", name: "Negative" },
+    { id: "grade", name: "Grade" },
+    { id: "hospitalizedCurrently", name: "Hospitalized (Current)" },
+    { id: "hospitalizedCumulative", name: "Hospitalized (Cum.)" },
+    { id: "inIcuCurrently", name: "In ICU (Current)" },
+    { id: "inIcuCumulative", name: "In ICU (Cum.)" },
+    { id: "onVentilatorCurrently", name: "On Ventilator (Current)" },
+    { id: "onVentilatorCumulative", name: "On Ventilator (Cum.)" },
+    { id: "recovered", name: "Recovered" },
+    { id: "death", name: "Deaths" },
+    { id: "totalTestResults", name: "Total Tests" },
+  ];
 }

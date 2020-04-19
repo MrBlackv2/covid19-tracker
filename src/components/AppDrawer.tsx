@@ -9,6 +9,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import TableChartIcon from '@material-ui/icons/TableChart';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import PublicIcon from '@material-ui/icons/Public';
+import TimelineIcon from '@material-ui/icons/Timeline';
 
 interface ListItemLinkProps {
   icon?: React.ReactElement;
@@ -44,8 +45,9 @@ export default function AppDrawer() {
       </AppBar>
       <List>
         <ListItemLink to="/states" primary="U.S. Data" icon={<TableChartIcon />} />
+        <ListItemLink to="/statecharts" primary="U.S. Charts" icon={<TimelineIcon />} />
         <ListItemLink to="/world" primary="World Data" icon={<PublicIcon />} />
-        <ListItemLink to="/charts" primary="World Charts" icon={<BarChartIcon />} />
+        <ListItemLink to="/worldcharts" primary="World Charts" icon={<BarChartIcon />} />
       </List>
     </div>
   );

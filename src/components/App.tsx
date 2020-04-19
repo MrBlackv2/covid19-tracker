@@ -10,6 +10,7 @@ import WorldPage from './WorldPage';
 import WorldChartsPage from './WorldChartsPage';
 import StatesPage from './StatesPage';
 import AppDrawer from './AppDrawer';
+import StateChartsPage from './StateChartsPage';
 
 const drawerWidth = 220;
 
@@ -104,8 +105,9 @@ function App() {
             <Switch>
               <Redirect exact path="/" to="/states" />
               <Route path="/world" component={WorldPage} />
-              <Route path="/charts" component={WorldChartsPage} />
+              <Route path="/worldcharts" component={WorldChartsPage} />
               <Route path="/states" component={StatesPage} />
+              <Route path="/statecharts" component={StateChartsPage} />
             </Switch>
           </div>
         </div>
