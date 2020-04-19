@@ -13,7 +13,7 @@ import AppDrawer from './AppDrawer';
 const drawerWidth = 220;
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true');
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const theme = createMuiTheme({
@@ -58,6 +58,7 @@ function App() {
 
   const handleDarkModeChange = (dark: boolean) => {
     setDarkMode(dark);
+    localStorage.setItem('darkMode', dark ? 'true' : 'false');
   };
 
   const handleDrawerToggle = () => {
