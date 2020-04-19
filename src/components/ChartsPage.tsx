@@ -10,10 +10,10 @@ import {
   BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer
 } from 'recharts';
 
-import { WorldData, getEntryProperties } from '../types/WorldData';
+import { WorldData, getWorldDataProps } from '../types/WorldData';
 import Detail from './Detail';
 
-const properties = getEntryProperties();
+const properties = getWorldDataProps();
 
 const useStyles = makeStyles((theme) => ({
   formControl: {

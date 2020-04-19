@@ -3,7 +3,7 @@ import TableCell from '@material-ui/core/TableCell';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 import DataTable from './DataTable';
-import { WorldData, getEntryProperties } from '../types/WorldData';
+import { WorldData, getWorldDataProps } from '../types/WorldData';
 import { TableHeadCell } from '../types/TableHeadCell';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-const allProps = getEntryProperties();
+const allProps = getWorldDataProps();
 
 const headCells: TableHeadCell[] = [{ id: 'country', label: 'Country', numeric: false }]
   .concat(allProps.map(prop => ({ id: prop.id, label: prop.name, numeric: true })));

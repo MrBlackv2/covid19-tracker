@@ -22,7 +22,7 @@ export interface WorldData {
   testsPerOneMillion: number;
 }
 
-export function getEntryProperties(): { id: string, name: string }[] {
+export function getWorldDataProps(): { id: string, name: string }[] {
   return [
     { id: "cases", name: "Cases" },
     { id: "todayCases", name: "Cases (Today)" },
