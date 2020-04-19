@@ -1,7 +1,15 @@
 import React, { ChangeEvent } from 'react';
-import { makeStyles, FormControlLabel, Checkbox, Divider } from "@material-ui/core";
+import { makeStyles, FormControlLabel, Checkbox, Divider, IconButton } from "@material-ui/core";
+import CloseIcon from '@material-ui/icons/Close';
 
 import { FilterProp } from '../types/FilterProp';
+
+interface TableFilterProps {
+  activeProps: string[];
+  setActiveProps: Function;
+  allProps: FilterProp[];
+  closeModal: Function;
+}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -19,9 +27,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column'
   },
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  }
 }));
 
-export default function TableFilter({ activeProps, setActiveProps, allProps }: { activeProps: string[], setActiveProps: Function, allProps: FilterProp[] }) {
+export default function TableFilter({ activeProps, setActiveProps, allProps, closeModal }: TableFilterProps) {
   const classes = useStyles();
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +54,12 @@ export default function TableFilter({ activeProps, setActiveProps, allProps }: {
 
   return (
     <div className={classes.paper}>
-      <h2>Add/Remove Columns</h2>
+      <div className={classes.header}>
+        <h2>Add/Remove Columns</h2>
+        <IconButton onClick={() => closeModal()}>
+          <CloseIcon />
+        </IconButton>
+      </div>
       <FormControlLabel
         control={<Checkbox checked={activeProps.length === allProps.length} onChange={handleSelectAllChange} name="all" />}
         label="All"

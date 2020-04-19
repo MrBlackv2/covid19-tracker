@@ -23,6 +23,15 @@ import DataTableRow from './DataTableRow';
 import { TableHeadCell } from '../types/TableHeadCell';
 import { FilterProp } from '../types/FilterProp';
 
+interface DataTableProps {
+  rows: any[];
+  headCells: TableHeadCell[];
+  allProps: FilterProp[];
+  search: Function;
+  idKey: string;
+  headCell: any;
+}
+
 const useStyles = makeStyles((theme) => ({
   root: {
     position: 'absolute',
@@ -119,7 +128,7 @@ function stableSort(array: any[], comparator: Function) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function DataTable({ rows, headCells, allProps, search, idKey, headCell }: { rows: any[], headCells: TableHeadCell[], allProps: FilterProp[], search: Function, idKey: string, headCell: any }) {
+export default function DataTable({ rows, headCells, allProps, search, idKey, headCell }: DataTableProps) {
   const classes = useStyles();
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const [orderBy, setOrderBy] = useState(idKey);
@@ -218,7 +227,12 @@ export default function DataTable({ rows, headCells, allProps, search, idKey, he
       </Modal>
       <Modal open={filterOpen} onClose={() => setFilterOpen(false)}>
         <div>
-          <TableFilter activeProps={activeProps} setActiveProps={setActiveProps} allProps={allProps} />
+          <TableFilter
+            activeProps={activeProps}
+            setActiveProps={setActiveProps}
+            allProps={allProps}
+            closeModal={() => setFilterOpen(false)}
+          />
         </div>
       </Modal>
     </>
