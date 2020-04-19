@@ -18,7 +18,7 @@ import FilterIcon from '@material-ui/icons/FilterList';
 
 import { Entry } from '../types/Entry';
 import DataTableHead from './DataTableHead';
-import CountryDetail from './CountryDetail';
+import Detail from './Detail';
 import TableFilter from './TableFilter';
 import DataTableRow from './DataTableRow';
 import { TableHeadCell } from '../types/TableHeadCell';
@@ -211,7 +211,7 @@ export default function DataTable({ rows, headCells, allProps, search, idKey, he
       </Paper>
       <Modal open={detailsOpen !== null} onClose={() => setDetailsOpen(null)}>
         <div>
-          <CountryDetail entry={detailsOpen as Entry} />
+          <Detail data={detailsOpen} allProps={allProps} idKey={idKey} />
         </div>
       </Modal>
       <Modal open={filterOpen} onClose={() => setFilterOpen(false)}>

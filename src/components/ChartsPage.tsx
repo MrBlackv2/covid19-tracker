@@ -5,7 +5,7 @@ import {
 
 import { Entry, getEntryProperties } from '../types/Entry';
 import { Paper, makeStyles, FormControl, InputLabel, Select, MenuItem, Modal } from '@material-ui/core';
-import CountryDetail from './CountryDetail';
+import Detail from './Detail';
 
 const properties = getEntryProperties();
 
@@ -118,7 +118,7 @@ export default function ChartsPage() {
 
       <Modal open={detailsOpen !== null} onClose={() => setDetailsOpen(null)}>
         <div>
-          <CountryDetail entry={detailsOpen as Entry} />
+          <Detail data={detailsOpen as Entry} allProps={properties} idKey="country" />
         </div>
       </Modal>
     </Paper>

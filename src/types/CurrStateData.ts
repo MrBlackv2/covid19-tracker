@@ -34,7 +34,6 @@ export function getCurrStateProps(): { id: string, name: string }[] {
     { id: "positive", name: "Positive" },
     { id: "negative", name: "Negative" },
     { id: "grade", name: "Grade" },
-    { id: "score", name: "Score" },
     { id: "hospitalizedCurrently", name: "Hospitalized (Current)" },
     { id: "hospitalizedCumulative", name: "Hospitalized (Cum.)" },
     { id: "inIcuCurrently", name: "In ICU (Current)" },
