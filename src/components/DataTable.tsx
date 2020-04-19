@@ -211,7 +211,7 @@ export default function DataTable({ rows, headCells, allProps, search, idKey, he
       </Paper>
       <Modal open={detailsOpen !== null} onClose={() => setDetailsOpen(null)}>
         <div>
-          <Detail data={detailsOpen} allProps={allProps} idKey={idKey} />
+          <Detail data={detailsOpen} allProps={allProps} idKey={idKey} closeModal={() => setDetailsOpen(null)} />
         </div>
       </Modal>
       <Modal open={filterOpen} onClose={() => setFilterOpen(false)}>

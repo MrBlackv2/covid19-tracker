@@ -1,6 +1,18 @@
 import React from 'react';
+import { IconButton } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 
 import { makeStyles } from '@material-ui/core';
+
+interface DetailProps {
+  data: any;
+  allProps: {
+    id: string,
+    name: string
+  }[];
+  idKey: string;
+  closeModal: Function;
+}
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -16,14 +28,23 @@ const useStyles = makeStyles((theme) => ({
     left: "50%",
     transform: "translate(-50%, -50%)",
   },
+  header: {
+    display: 'flex',
+    justifyContent: 'space-between'
+  }
 }));
 
-export default function Detail({ data, allProps, idKey }: { data: any, allProps: { id: string, name: string }[], idKey: string }) {
+export default function Detail({ data, allProps, idKey, closeModal }: DetailProps) {
   const classes = useStyles();
 
   return (
     <div className={classes.paper}>
-      <h2>{data[idKey]} Details</h2>
+      <div className={classes.header}>
+        <h2>{data[idKey]} Details</h2>
+        <IconButton onClick={() => closeModal()}>
+          <CloseIcon />
+        </IconButton>
+      </div>
       <div>
         {allProps.map(prop =>
           <div key={prop.id}>{prop.name}: {(data as any)[prop.id]}</div>

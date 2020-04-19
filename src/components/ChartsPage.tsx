@@ -118,7 +118,7 @@ export default function ChartsPage() {
 
       <Modal open={detailsOpen !== null} onClose={() => setDetailsOpen(null)}>
         <div>
-          <Detail data={detailsOpen as Entry} allProps={properties} idKey="country" />
+          <Detail data={detailsOpen as Entry} allProps={properties} idKey="country" closeModal={() => setDetailsOpen(null)} />
         </div>
       </Modal>
     </Paper>
