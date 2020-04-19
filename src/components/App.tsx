@@ -24,7 +24,7 @@ function App() {
     },
   });
 
-  const useStyles = makeStyles((theme: Theme) => createStyles({
+  const useStyles = makeStyles(createStyles({
     root: {
       background: theme.palette.background.default,
       position: "absolute",
