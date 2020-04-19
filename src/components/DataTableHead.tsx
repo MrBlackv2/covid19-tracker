@@ -6,7 +6,15 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 
 import { TableHeadCell } from '../types/TableHeadCell';
 
-export default function DataTableHead({ headCells, classes, order, orderBy, onRequestSort }: { headCells: TableHeadCell[], classes: any, order: 'asc' | 'desc', orderBy: string, onRequestSort: Function }) {
+interface DataTableHeadProps {
+  headCells: TableHeadCell[];
+  classes: any;
+  order: 'asc' | 'desc';
+  orderBy: string;
+  onRequestSort: Function;
+}
+
+export default function DataTableHead({ headCells, classes, order, orderBy, onRequestSort }: DataTableHeadProps) {
   const createSortHandler = (property: string) => (event: any) => {
     onRequestSort(event, property)
   };

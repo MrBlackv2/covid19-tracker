@@ -4,7 +4,14 @@ import TableCell from '@material-ui/core/TableCell';
 
 import { WorldData } from '../types/WorldData';
 
-export default function DataTableRow({ row, activeProps, setDetailsOpen, headCell }: { row: WorldData, activeProps: string[], setDetailsOpen: Function, headCell: any }) {
+interface DataTableRowProps {
+  row: WorldData;
+  activeProps: string[];
+  setDetailsOpen: Function;
+  headCell: any;
+}
+
+export default function DataTableRow({ row, activeProps, setDetailsOpen, headCell }: DataTableRowProps) {
   return (
     <TableRow
       hover
