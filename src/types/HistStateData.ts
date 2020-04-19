@@ -1,5 +1,5 @@
 export interface HistStateData {
-  date: Date;
+  date: Date | string;
   state: string;
   positive: number;
   negative: number;

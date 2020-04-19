@@ -38,18 +38,13 @@ const useStyles = makeStyles((theme) => ({
 const allProps = getHistStateProps();
 
 function parseDates(data: any[]) {
-  for (const item of data) {
-    if (!item.date) {
-      continue;
-    }
-
+  return data.map(item => {
     const dateStr: string = item.date.toString();
     const year = dateStr.substr(0, 4);
     const month = dateStr.substr(4, 2);
     const day = dateStr.substr(6, 2);
-    item.date = new Date(+year, (+month) - 1, +day).getTime();
-  }
-  return data;
+    return { ...item, date: new Date(+year, (+month) - 1, +day) };
+  });
 }
 
 export default function StateChartsPage() {
@@ -78,15 +73,13 @@ export default function StateChartsPage() {
 
   useEffect(() => {
     loadEntries();
-    setInterval(() => {
-      loadEntries();
-    }, 60000);
   }, []);
 
   const filteredData = data
     .slice()
     .filter(item => item.state === selectedState)
-    .sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+    .sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0)
+    .map(item => ({ ...item, date: (item.date as Date).toLocaleDateString() }));
 
   return (
     <Paper className={classes.paper}>
@@ -125,7 +118,7 @@ export default function StateChartsPage() {
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" tickFormatter={date => (new Date(date)).toLocaleDateString()} />
+            <XAxis dataKey="date" />
             <YAxis />
             <Tooltip labelStyle={{ color: "black" }} />
             <Line type="monotone" dataKey={selectedProp} stroke="#8884d8" />
