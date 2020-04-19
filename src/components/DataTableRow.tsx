@@ -2,9 +2,9 @@ import React from 'react';
 import TableRow from '@material-ui/core/TableRow';
 import TableCell from '@material-ui/core/TableCell';
 
-import { Entry } from '../types/Entry';
+import { WorldData } from '../types/WorldData';
 
-export default function DataTableRow({ row, activeProps, setDetailsOpen, headCell }: { row: Entry, activeProps: string[], setDetailsOpen: Function, headCell: any }) {
+export default function DataTableRow({ row, activeProps, setDetailsOpen, headCell }: { row: WorldData, activeProps: string[], setDetailsOpen: Function, headCell: any }) {
   return (
     <TableRow
       hover

@@ -1,4 +1,4 @@
-export interface Entry {
+export interface WorldData {
   updated: number;
   country: string;
   countryInfo: {

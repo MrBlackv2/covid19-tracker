@@ -3,7 +3,7 @@ import TableCell from '@material-ui/core/TableCell';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 import DataTable from './DataTable';
-import { Entry, getEntryProperties } from '../types/Entry';
+import { WorldData, getEntryProperties } from '../types/WorldData';
 import { TableHeadCell } from '../types/TableHeadCell';
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -27,11 +27,11 @@ const allProps = getEntryProperties();
 const headCells: TableHeadCell[] = [{ id: 'country', label: 'Country', numeric: false }]
   .concat(allProps.map(prop => ({ id: prop.id, label: prop.name, numeric: true })));
 
-function search(entries: Entry[], searchTerm: string) {
+function search(entries: WorldData[], searchTerm: string) {
   return entries.filter(entry => entry.country.toLowerCase().includes(searchTerm.toLowerCase()))
 }
 
-const headCell = (row: Entry) => (
+const headCell = (row: WorldData) => (
   <TableCell align="left" style={{ display: "flex", alignItems: "center" }}>
     <img
       style={{ height: 20, marginRight: 10 }}
@@ -43,7 +43,7 @@ const headCell = (row: Entry) => (
 );
 
 export default function WorldPage() {
-  const [entries, setEntries] = useState<Entry[]>([]);
+  const [entries, setEntries] = useState<WorldData[]>([]);
   const classes = useStyles();
 
   const loadEntries = () => {

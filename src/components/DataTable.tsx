@@ -13,7 +13,7 @@ import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/FilterList';
 
-import { Entry } from '../types/Entry';
+import { WorldData } from '../types/WorldData';
 import DataTableHead from './DataTableHead';
 import Detail from './Detail';
 import TableFilter from './TableFilter';
@@ -131,7 +131,7 @@ export default function DataTable({ rows, headCells, allProps, search, idKey, he
   const [orderBy, setOrderBy] = useState(idKey);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [detailsOpen, setDetailsOpen] = useState<Entry | null>(null);
+  const [detailsOpen, setDetailsOpen] = useState<WorldData | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterOpen, setFilterOpen] = useState(false);
   const [activeProps, setActiveProps] = useState(allProps.map(prop => prop.id));

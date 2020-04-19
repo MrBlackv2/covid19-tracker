@@ -10,7 +10,7 @@ import {
   BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer
 } from 'recharts';
 
-import { Entry, getEntryProperties } from '../types/Entry';
+import { WorldData, getEntryProperties } from '../types/WorldData';
 import Detail from './Detail';
 
 const properties = getEntryProperties();
@@ -41,10 +41,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ChartsPage() {
   const classes  = useStyles();
-  const [detailsOpen, setDetailsOpen] = useState<Entry | null>(null);
+  const [detailsOpen, setDetailsOpen] = useState<WorldData | null>(null);
   const [property, setProperty] = useState(properties[0].id);
   const [showEntries, setShowEntries] = useState(10);
-  const [entries, setEntries] = useState<Entry[]>([]);
+  const [entries, setEntries] = useState<WorldData[]>([]);
 
   const loadEntries = () => {
     fetch('https://corona.lmao.ninja/v2/countries?sort=cases')
@@ -126,7 +126,7 @@ export default function ChartsPage() {
 
       <Modal open={detailsOpen !== null} onClose={() => setDetailsOpen(null)}>
         <div>
-          <Detail data={detailsOpen as Entry} allProps={properties} idKey="country" closeModal={() => setDetailsOpen(null)} />
+          <Detail data={detailsOpen as WorldData} allProps={properties} idKey="country" closeModal={() => setDetailsOpen(null)} />
         </div>
       </Modal>
     </>
