@@ -17,12 +17,12 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(2)
   },
-  chartContainer: {
+  paper: {
     position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    top: theme.spacing(2),
+    left: theme.spacing(2),
+    right: theme.spacing(2),
+    bottom: theme.spacing(2),
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden'
@@ -66,61 +66,63 @@ export default function ChartsPage() {
     });
 
   return (
-    <Paper className={classes.chartContainer}>
-      <div>
-        <FormControl className={classes.formControl}>
-          <InputLabel>Metric</InputLabel>
-          <Select value={property} onChange={(ev: any) => setProperty(ev.target.value)}>
-            {properties.map((prop) => (
-              <MenuItem value={prop.id} key={prop.id}>
-                {prop.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl className={classes.formControl}>
-          <InputLabel>View</InputLabel>
-          <Select value={showEntries} onChange={(ev: any) => setShowEntries(ev.target.value)}>
-            <MenuItem value={10}>Top 10</MenuItem>
-            <MenuItem value={20}>Top 25</MenuItem>
-            <MenuItem value={50}>Top 50</MenuItem>
-            <MenuItem value={-10}>Bottom 10</MenuItem>
-            <MenuItem value={-25}>Bottom 25</MenuItem>
-            <MenuItem value={-50}>Bottom 50</MenuItem>
-            <MenuItem value={1000}>All</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
+    <>
+      <Paper className={classes.paper}>
+        <div>
+          <FormControl className={classes.formControl}>
+            <InputLabel>Metric</InputLabel>
+            <Select value={property} onChange={(ev: any) => setProperty(ev.target.value)}>
+              {properties.map((prop) => (
+                <MenuItem value={prop.id} key={prop.id}>
+                  {prop.name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl className={classes.formControl}>
+            <InputLabel>View</InputLabel>
+            <Select value={showEntries} onChange={(ev: any) => setShowEntries(ev.target.value)}>
+              <MenuItem value={10}>Top 10</MenuItem>
+              <MenuItem value={20}>Top 25</MenuItem>
+              <MenuItem value={50}>Top 50</MenuItem>
+              <MenuItem value={-10}>Bottom 10</MenuItem>
+              <MenuItem value={-25}>Bottom 25</MenuItem>
+              <MenuItem value={-50}>Bottom 50</MenuItem>
+              <MenuItem value={1000}>All</MenuItem>
+            </Select>
+          </FormControl>
+        </div>
 
-      <div className={classes.chart}>
-        <ResponsiveContainer>
-          <BarChart
-            data={sortedEntries}
-            margin={{
-              top: 5,
-              right: 30,
-              left: 20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="country" />
-            <YAxis />
-            <Tooltip labelStyle={{ color: "black" }} />
-            <Bar
-              dataKey={property}
-              fill="#8884d8"
-              onClick={(entry) => setDetailsOpen(entry)}
-            />
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
+        <div className={classes.chart}>
+          <ResponsiveContainer>
+            <BarChart
+              data={sortedEntries}
+              margin={{
+                top: 5,
+                right: 30,
+                left: 20,
+                bottom: 5,
+              }}
+            >
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="country" />
+              <YAxis />
+              <Tooltip labelStyle={{ color: "black" }} />
+              <Bar
+                dataKey={property}
+                fill="#8884d8"
+                onClick={(entry) => setDetailsOpen(entry)}
+              />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </Paper>
 
       <Modal open={detailsOpen !== null} onClose={() => setDetailsOpen(null)}>
         <div>
           <Detail data={detailsOpen as Entry} allProps={properties} idKey="country" closeModal={() => setDetailsOpen(null)} />
         </div>
       </Modal>
-    </Paper>
+    </>
   );
 }

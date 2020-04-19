@@ -6,7 +6,6 @@ import {
   TableCell,
   TableContainer,
   TableRow,
-  Paper,
   TablePagination,
   Modal,
   fade,
@@ -40,7 +39,9 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbar: {
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    paddingTop: theme.spacing(2),
+    paddingLeft: theme.spacing(2)
   },
   table: {
     minWidth: 750
@@ -77,7 +78,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center'
   },
   inputRoot: {
-    color: 'inherit'
+    color: 'inherit',
+    width: '100%'
   },
   inputInput: {
     padding: theme.spacing(1, 1, 1, 0),
@@ -152,8 +154,8 @@ export default function DataTable({ rows, headCells, allProps, search, idKey, he
     Math.min(rowsPerPage, searchedRows.length - page * rowsPerPage);
 
   return (
-    <div className={classes.root}>
-      <Paper className={classes.paper}>
+    <>
+      <div>
         <div className={classes.toolbar}>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -208,7 +210,7 @@ export default function DataTable({ rows, headCells, allProps, search, idKey, he
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
-      </Paper>
+      </div>
       <Modal open={detailsOpen !== null} onClose={() => setDetailsOpen(null)}>
         <div>
           <Detail data={detailsOpen} allProps={allProps} idKey={idKey} closeModal={() => setDetailsOpen(null)} />
@@ -219,6 +221,6 @@ export default function DataTable({ rows, headCells, allProps, search, idKey, he
           <TableFilter activeProps={activeProps} setActiveProps={setActiveProps} allProps={allProps} />
         </div>
       </Modal>
-    </div>
+    </>
   );
 }

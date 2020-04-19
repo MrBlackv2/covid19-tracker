@@ -1,9 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { TableCell } from '@material-ui/core';
+import { TableCell, Paper } from '@material-ui/core';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 
 import DataTable from './DataTable';
 import { Entry, getEntryProperties } from '../types/Entry';
 import { TableHeadCell } from '../types/TableHeadCell';
+
+const useStyles = makeStyles((theme: Theme) => ({
+  worldPage: {
+    padding: theme.spacing(2)
+  },
+  paper: {
+    height: '100%',
+    width: '100%'
+  },
+}));
 
 const allProps = getEntryProperties();
 
@@ -27,6 +38,7 @@ const headCell = (row: Entry) => (
 
 export default function WorldPage() {
   const [entries, setEntries] = useState<Entry[]>([]);
+  const classes = useStyles();
 
   const loadEntries = () => {
     fetch('https://corona.lmao.ninja/v2/countries?sort=cases')
@@ -43,6 +55,17 @@ export default function WorldPage() {
   }, []);
 
   return (
-    <DataTable idKey="country" rows={entries} headCells={headCells} allProps={allProps} search={search} headCell={headCell} />
+    <div className={classes.worldPage}>
+      <Paper className={classes.paper}>
+        <DataTable
+          idKey="country"
+          rows={entries}
+          headCells={headCells}
+          allProps={allProps}
+          search={search}
+          headCell={headCell}
+        />
+      </Paper>
+    </div>
   );
 }
