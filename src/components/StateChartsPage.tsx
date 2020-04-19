@@ -53,6 +53,9 @@ export default function StateChartsPage() {
   const [selectedProp, setSelectedProp] = useState('positive');
   const [data, setData] = useState<HistStateData[]>([]);
 
+  const propObj = allProps.find(prop => prop.id === selectedProp);
+  const propName = propObj ? propObj.name : selectedProp;
+
   const stateSet = data.reduce((allStates, item) => {
     allStates.add(item.state);
     return allStates;
@@ -120,7 +123,7 @@ export default function StateChartsPage() {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="date" />
             <YAxis />
-            <Tooltip labelStyle={{ color: "black" }} />
+            <Tooltip labelStyle={{ color: "black" }} formatter={(val, x, y) => [y.value, propName]} />
             <Line type="monotone" dataKey={selectedProp} stroke="#8884d8" />
           </LineChart>
         </ResponsiveContainer>

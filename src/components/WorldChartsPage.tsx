@@ -13,7 +13,7 @@ import {
 import { WorldData, getWorldDataProps } from '../types/WorldData';
 import Detail from './Detail';
 
-const properties = getWorldDataProps();
+const allProps = getWorldDataProps();
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -42,9 +42,12 @@ const useStyles = makeStyles((theme) => ({
 export default function WorldChartsPage() {
   const classes  = useStyles();
   const [detailsOpen, setDetailsOpen] = useState<WorldData | null>(null);
-  const [property, setProperty] = useState(properties[0].id);
+  const [selectedProp, setSelectedProp] = useState(allProps[0].id);
   const [showEntries, setShowEntries] = useState(10);
   const [entries, setEntries] = useState<WorldData[]>([]);
+
+  const propObj = allProps.find(prop => prop.id === selectedProp);
+  const propName = propObj ? propObj.name : selectedProp;
 
   const loadEntries = () => {
     fetch('https://corona.lmao.ninja/v2/countries?sort=cases')
@@ -62,7 +65,7 @@ export default function WorldChartsPage() {
 
   const sortedEntries = entries
     .slice()
-    .sort((a: any, b: any) => a[property] < b[property] ? 1 : a[property] > b[property] ? -1 : 0)
+    .sort((a: any, b: any) => a[selectedProp] < b[selectedProp] ? 1 : a[selectedProp] > b[selectedProp] ? -1 : 0)
     .filter((val, idx) => {
       if (showEntries > 0) {
         return idx < showEntries;
@@ -76,8 +79,8 @@ export default function WorldChartsPage() {
       <div>
         <FormControl className={classes.formControl}>
           <InputLabel>Metric</InputLabel>
-          <Select value={property} onChange={(ev: any) => setProperty(ev.target.value)}>
-            {properties.map((prop) => (
+          <Select value={selectedProp} onChange={(ev: any) => setSelectedProp(ev.target.value)}>
+            {allProps.map((prop) => (
               <MenuItem value={prop.id} key={prop.id}>
                 {prop.name}
               </MenuItem>
@@ -112,9 +115,9 @@ export default function WorldChartsPage() {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="country" />
             <YAxis />
-            <Tooltip labelStyle={{ color: "black" }} />
+            <Tooltip labelStyle={{ color: "black" }} formatter={(val, x, y) => [y.value, propName]} />
             <Bar
-              dataKey={property}
+              dataKey={selectedProp}
               fill="#8884d8"
               onClick={(entry) => setDetailsOpen(entry)}
             />
@@ -124,7 +127,7 @@ export default function WorldChartsPage() {
 
       <Modal open={detailsOpen !== null} onClose={() => setDetailsOpen(null)}>
         <div>
-          <Detail data={detailsOpen as WorldData} allProps={properties} idKey="country" closeModal={() => setDetailsOpen(null)} />
+          <Detail data={detailsOpen as WorldData} allProps={allProps} idKey="country" closeModal={() => setDetailsOpen(null)} />
         </div>
       </Modal>
     </Paper>
