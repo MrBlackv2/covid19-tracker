@@ -1,5 +1,9 @@
 import React, { ChangeEvent } from 'react';
-import { makeStyles, FormControlLabel, Checkbox, Divider, IconButton } from "@material-ui/core";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Divider from '@material-ui/core/Divider';
+import IconButton from '@material-ui/core/IconButton';
+import { makeStyles } from '@material-ui/core/styles';
 import CloseIcon from '@material-ui/icons/Close';
 
 import { FilterProp } from '../types/FilterProp';

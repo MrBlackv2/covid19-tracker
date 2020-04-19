@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { ThemeProvider, createMuiTheme, makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import Hidden from '@material-ui/core/Hidden';
+import Drawer from '@material-ui/core/Drawer';
+import { ThemeProvider, createMuiTheme, makeStyles, createStyles } from '@material-ui/core/styles';
 import { green, blue } from "@material-ui/core/colors";
 
 import Navbar from './Navbar';
 import WorldPage from './WorldPage';
 import ChartsPage from './ChartsPage';
 import StatesPage from './StatesPage';
-import { Hidden, Drawer } from '@material-ui/core';
 import AppDrawer from './AppDrawer';
 
 const drawerWidth = 220;

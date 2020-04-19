@@ -1,6 +1,11 @@
 import React, { useMemo } from 'react';
 import { Link as RouterLink, LinkProps as RouterLinkProps } from 'react-router-dom';
-import { List, ListItem, ListItemText, ListItemIcon, AppBar, Toolbar } from '@material-ui/core';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import TableChartIcon from '@material-ui/icons/TableChart';
 import BarChartIcon from '@material-ui/icons/BarChart';
 import PublicIcon from '@material-ui/icons/Public';

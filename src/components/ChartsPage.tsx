@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import Paper from '@material-ui/core/Paper';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import Modal from '@material-ui/core/Modal';
+import { makeStyles } from '@material-ui/core/styles';
 import {
   BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer
 } from 'recharts';
 
 import { Entry, getEntryProperties } from '../types/Entry';
-import { Paper, makeStyles, FormControl, InputLabel, Select, MenuItem, Modal } from '@material-ui/core';
 import Detail from './Detail';
 
 const properties = getEntryProperties();

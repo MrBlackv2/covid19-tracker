@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { TableCell, Paper } from '@material-ui/core';
+import TableCell from '@material-ui/core/TableCell';
+import Paper from '@material-ui/core/Paper';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 import { CurrStateData, getCurrStateProps } from '../types/CurrStateData';
