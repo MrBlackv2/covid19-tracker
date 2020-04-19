@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import TableCell from '@material-ui/core/TableCell';
-import Paper from '@material-ui/core/Paper';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 import DataTable from './DataTable';
@@ -9,11 +8,17 @@ import { TableHeadCell } from '../types/TableHeadCell';
 
 const useStyles = makeStyles((theme: Theme) => ({
   worldPage: {
-    padding: theme.spacing(2)
+    padding: theme.spacing(1),
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0
   },
-  paper: {
+  tableHolder: {
     height: '100%',
-    width: '100%'
+    width: '100%',
+    position: 'relative'
   },
 }));
 
@@ -57,7 +62,7 @@ export default function WorldPage() {
 
   return (
     <div className={classes.worldPage}>
-      <Paper className={classes.paper}>
+      <div className={classes.tableHolder}>
         <DataTable
           idKey="country"
           rows={entries}
@@ -66,7 +71,7 @@ export default function WorldPage() {
           search={search}
           headCell={headCell}
         />
-      </Paper>
+      </div>
     </div>
   );
 }

@@ -25,10 +25,10 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     position: 'absolute',
-    top: theme.spacing(2),
-    left: theme.spacing(2),
-    right: theme.spacing(2),
-    bottom: theme.spacing(2),
+    top: theme.spacing(1),
+    left: theme.spacing(1),
+    right: theme.spacing(1),
+    bottom: theme.spacing(1),
     display: 'flex',
     flexDirection: 'column',
     overflow: 'hidden'

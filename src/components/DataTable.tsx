@@ -7,6 +7,7 @@ import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
 import Modal from '@material-ui/core/Modal';
 import Button from '@material-ui/core/Button';
+import Paper from '@material-ui/core/Paper';
 import { makeStyles, fade } from '@material-ui/core/styles';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
@@ -30,13 +31,10 @@ interface DataTableProps {
 }
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    overflow: 'hidden'
+  tableRoot: {
+    display: 'flex',
+    flexDirection: 'column',
+    maxHeight: '100%'
   },
   paper: {
     overflow: 'auto',
@@ -46,8 +44,10 @@ const useStyles = makeStyles((theme) => ({
   toolbar: {
     display: 'flex',
     alignItems: 'center',
-    paddingTop: theme.spacing(2),
-    paddingLeft: theme.spacing(2)
+    padding: theme.spacing(1)
+  },
+  container: {
+    maxHeight: `calc(100% - 52px)`,
   },
   table: {
     minWidth: 750
@@ -161,7 +161,7 @@ export default function DataTable({ rows, headCells, allProps, search, idKey, he
 
   return (
     <>
-      <div>
+      <Paper className={classes.tableRoot}>
         <div className={classes.toolbar}>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -180,8 +180,9 @@ export default function DataTable({ rows, headCells, allProps, search, idKey, he
             <FilterIcon />
           </Button>
         </div>
-        <TableContainer>
+        <TableContainer className={classes.container}>
           <Table
+            stickyHeader
             className={classes.table}
             aria-labelledby="tableTitle"
             aria-label="table"
@@ -216,7 +217,7 @@ export default function DataTable({ rows, headCells, allProps, search, idKey, he
           onChangePage={handleChangePage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
-      </div>
+      </Paper>
       <Modal open={detailsOpen !== null} onClose={() => setDetailsOpen(null)}>
         <div>
           <Detail data={detailsOpen} allProps={allProps} idKey={idKey} closeModal={() => setDetailsOpen(null)} />
