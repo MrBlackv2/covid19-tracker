@@ -39,7 +39,8 @@ export function getCurrStateProps(): { id: string, name: string }[] {
     { id: "inIcuCurrently", name: "In ICU (Current)" },
     { id: "inIcuCumulative", name: "In ICU (Cum.)" },
     { id: "onVentilatorCurrently", name: "On Ventilator (Current)" },
-    { id: "recovered", name: "On Ventilator (Cum.)" },
+    { id: "onVentilatorCumulative", name: "On Ventilator (Cum.)" },
+    { id: "recovered", name: "Recovered" },
     { id: "death", name: "Deaths" },
     { id: "totalTestResults", name: "Total Tests" },
   ];
