@@ -103,11 +103,11 @@ function App() {
           </nav>
           <div className={classes.container}>
             <Switch>
-              <Redirect exact path="/" to="/states" />
+              {/* <Redirect exact path="/" to="/states" /> */}
               <Route path="/world" component={WorldPage} />
               <Route path="/worldcharts" component={WorldChartsPage} />
-              <Route path="/states" component={StatesPage} />
               <Route path="/statecharts" component={StateChartsPage} />
+              <Route path="/" component={StatesPage} />
             </Switch>
           </div>
         </div>
