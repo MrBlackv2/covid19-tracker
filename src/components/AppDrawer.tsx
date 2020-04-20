@@ -44,7 +44,7 @@ export default function AppDrawer() {
         <Toolbar />
       </AppBar>
       <List>
-        <ListItemLink to="" primary="U.S. Data" icon={<TableChartIcon />} />
+        <ListItemLink to="/states" primary="U.S. Data" icon={<TableChartIcon />} />
         <ListItemLink to="/statecharts" primary="U.S. Charts" icon={<TimelineIcon />} />
         <ListItemLink to="/world" primary="World Data" icon={<PublicIcon />} />
         <ListItemLink to="/worldcharts" primary="World Charts" icon={<BarChartIcon />} />
