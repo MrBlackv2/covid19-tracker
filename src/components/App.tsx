@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import { ThemeProvider, createMuiTheme, makeStyles, createStyles } from '@material-ui/core/styles';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import { green, blue } from "@material-ui/core/colors";
 
 import Navbar from './Navbar';
-import WorldPage from './WorldPage';
-import WorldChartsPage from './WorldChartsPage';
-import StatesPage from './StatesPage';
-import StateChartsPage from './StateChartsPage';
 import AppDrawerContainer from './AppDrawerContainer';
+import Contents from './Contents';
 
 const drawerWidth = 220;
 
@@ -24,7 +21,7 @@ function App() {
     },
   });
 
-  const useStyles = makeStyles(createStyles({
+  const useStyles = makeStyles({
     root: {
       background: theme.palette.background.default,
       position: "absolute",
@@ -34,16 +31,8 @@ function App() {
       bottom: 0,
       display: 'flex',
       flexDirection: 'column'
-    },
-    container: {
-      flex: '1 1 auto',
-      position: 'relative',
-      [theme.breakpoints.up('sm')]: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth
-      }
     }
-  }));
+  });
 
   const classes = useStyles();
 
@@ -67,15 +56,7 @@ function App() {
             drawerWidth={drawerWidth}
           />
           <AppDrawerContainer drawerWidth={drawerWidth} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-          <div className={classes.container}>
-            <Switch>
-              <Redirect exact path="/" to="/states" />
-              <Route path="/world" component={WorldPage} />
-              <Route path="/worldcharts" component={WorldChartsPage} />
-              <Route path="/states" component={StatesPage} />
-              <Route path="/statecharts" component={StateChartsPage} />
-            </Switch>
-          </div>
+          <Contents drawerWidth={drawerWidth} />
         </div>
       </BrowserRouter>
     </ThemeProvider>
