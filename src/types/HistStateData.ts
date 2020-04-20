@@ -28,17 +28,20 @@ export interface HistStateData {
 
 export function getHistStateProps(): { id: string, name: string }[] {
   return [
-    { id: "positive", name: "Positive" },
-    { id: "negative", name: "Negative" },
-    { id: "grade", name: "Grade" },
-    { id: "hospitalizedCurrently", name: "Hospitalized (Current)" },
-    { id: "hospitalizedCumulative", name: "Hospitalized (Cum.)" },
-    { id: "inIcuCurrently", name: "In ICU (Current)" },
-    { id: "inIcuCumulative", name: "In ICU (Cum.)" },
-    { id: "onVentilatorCurrently", name: "On Ventilator (Current)" },
-    { id: "onVentilatorCumulative", name: "On Ventilator (Cum.)" },
-    { id: "recovered", name: "Recovered" },
-    { id: "death", name: "Deaths" },
-    { id: "totalTestResults", name: "Total Tests" },
+    { id: 'positive', name: 'Positive' },
+    { id: 'positiveIncrease', name: 'Positive Increase' },
+    { id: 'negative', name: 'Negative' },
+    { id: 'negativeIncrease', name: 'Negative Increase' },
+    { id: 'hospitalizedCurrently', name: 'Hospitalized (Current)' },
+    { id: 'hospitalizedCumulative', name: 'Hospitalized (Cum.)' },
+    { id: 'hospitalizedIncrease', name: 'Hospitalized Increase' },
+    { id: 'inIcuCurrently', name: 'In ICU (Current)' },
+    { id: 'inIcuCumulative', name: 'In ICU (Cum.)' },
+    { id: 'onVentilatorCurrently', name: 'On Ventilator (Current)' },
+    { id: 'onVentilatorCumulative', name: 'On Ventilator (Cum.)' },
+    { id: 'recovered', name: 'Recovered' },
+    { id: 'death', name: 'Deaths' },
+    { id: 'totalTestResults', name: 'Total Tests' },
+    { id: 'totalTestResultsIncrease', name: 'Total Tests Increase' }
   ];
 }
