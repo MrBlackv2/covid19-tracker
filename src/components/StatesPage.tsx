@@ -50,9 +50,6 @@ export default function StatesPage() {
 
   useEffect(() => {
     loadEntries();
-    setInterval(() => {
-      loadEntries();
-    }, 60000);
   }, []);
 
   return (

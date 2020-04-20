@@ -55,9 +55,6 @@ export default function WorldPage() {
 
   useEffect(() => {
     loadEntries();
-    setInterval(() => {
-      loadEntries();
-    }, 60000);
   }, []);
 
   return (

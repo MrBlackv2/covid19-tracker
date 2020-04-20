@@ -58,9 +58,6 @@ export default function WorldChartsPage() {
 
   useEffect(() => {
     loadEntries();
-    setInterval(() => {
-      loadEntries();
-    }, 60000);
   }, []);
 
   const sortedEntries = entries
