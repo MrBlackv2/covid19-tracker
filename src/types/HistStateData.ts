@@ -28,10 +28,10 @@ export interface HistStateData {
 
 export function getHistStateProps(): { id: string, name: string }[] {
   return [
-    { id: 'positive', name: 'Positive' },
-    { id: 'positiveIncrease', name: 'Positive Increase' },
-    { id: 'negative', name: 'Negative' },
-    { id: 'negativeIncrease', name: 'Negative Increase' },
+    { id: 'positive', name: 'Cases' },
+    { id: 'positiveIncrease', name: 'New Cases' },
+    { id: 'negative', name: 'Negatives' },
+    { id: 'negativeIncrease', name: 'New Negatives' },
     { id: 'hospitalizedCurrently', name: 'Hospitalized (Current)' },
     { id: 'hospitalizedCumulative', name: 'Hospitalized (Cum.)' },
     { id: 'hospitalizedIncrease', name: 'Hospitalized Increase' },

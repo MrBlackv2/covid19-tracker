@@ -31,8 +31,8 @@ export interface CurrStateData {
 
 export function getCurrStateProps(): { id: string, name: string }[] {
   return [
-    { id: "positive", name: "Positive" },
-    { id: "negative", name: "Negative" },
+    { id: "positive", name: "Cases" },
+    { id: "negative", name: "Negatives" },
     { id: "grade", name: "Grade" },
     { id: "hospitalizedCurrently", name: "Hospitalized (Current)" },
     { id: "hospitalizedCumulative", name: "Hospitalized (Cum.)" },
