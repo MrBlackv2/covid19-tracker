@@ -8,8 +8,15 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
   LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer
 } from 'recharts';
+import { connect } from 'react-redux';
 
 import { HistStateData, getHistStateProps } from '../types/HistStateData';
+import { loadHistStateData } from '../redux/actions';
+
+interface StateChartsPageProps {
+  data: HistStateData[];
+  loadHistStateData: Function;
+}
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -47,11 +54,10 @@ function parseDates(data: any[]) {
   });
 }
 
-export default function StateChartsPage() {
+function StateChartsPage({ data, loadHistStateData }: StateChartsPageProps) {
   const classes = useStyles();
   const [selectedState, setSelectedState] = useState('');
   const [selectedProp, setSelectedProp] = useState('positive');
-  const [data, setData] = useState<HistStateData[]>([]);
 
   const propObj = allProps.find(prop => prop.id === selectedProp);
   const propName = propObj ? propObj.name : selectedProp;
@@ -63,20 +69,20 @@ export default function StateChartsPage() {
 
   const allStates = Array.from(stateSet);
 
-  const loadEntries = () => {
-    fetch('https://covidtracking.com/api/v1/states/daily.json')
-      .then(res => res.json())
-      .then(entries => parseDates(entries))
-      .then(entries => {
-        setData(entries);
-        setSelectedState(entries[0].state);
-      })
-      .catch(err => console.error(err));
-  }
-
   useEffect(() => {
-    loadEntries();
-  }, []);
+    function loadData() {
+      fetch('https://covidtracking.com/api/v1/states/daily.json')
+        .then(res => res.json())
+        .then(entries => parseDates(entries))
+        .then(entries => {
+          loadHistStateData(entries);
+          setSelectedState(entries[0].state);
+        })
+        .catch(err => console.error(err));
+    }
+
+    loadData();
+  }, [loadHistStateData]);
 
   const filteredData = data
     .slice()
@@ -131,3 +137,9 @@ export default function StateChartsPage() {
     </Paper>
   );
 }
+
+const mapStateToProps = (state: any) => ({
+  data: state.histState.data
+});
+
+export default connect(mapStateToProps, { loadHistStateData })(StateChartsPage);

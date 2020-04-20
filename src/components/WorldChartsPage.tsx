@@ -9,9 +9,16 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
   BarChart, Bar, CartesianGrid, XAxis, YAxis, Tooltip, ResponsiveContainer
 } from 'recharts';
+import { connect } from 'react-redux';
 
 import { WorldData, getWorldDataProps } from '../types/WorldData';
+import { loadWorldData } from '../redux/actions';
 import Detail from './Detail';
+
+interface WorldChartsPageProps {
+  data: WorldData[];
+  loadWorldData: Function;
+}
 
 const allProps = getWorldDataProps();
 
@@ -39,35 +46,34 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function WorldChartsPage() {
+function WorldChartsPage({ data, loadWorldData }: WorldChartsPageProps) {
   const classes  = useStyles();
   const [detailsOpen, setDetailsOpen] = useState<WorldData | null>(null);
   const [selectedProp, setSelectedProp] = useState(allProps[0].id);
   const [showEntries, setShowEntries] = useState(10);
-  const [entries, setEntries] = useState<WorldData[]>([]);
 
   const propObj = allProps.find(prop => prop.id === selectedProp);
   const propName = propObj ? propObj.name : selectedProp;
 
-  const loadEntries = () => {
-    fetch('https://corona.lmao.ninja/v2/countries?sort=cases')
-      .then(res => res.json())
-      .then(entries => setEntries(entries))
-      .catch(err => console.error(err));
-  }
-
   useEffect(() => {
-    loadEntries();
+    function loadData() {
+      fetch('https://corona.lmao.ninja/v2/countries?sort=cases')
+        .then(res => res.json())
+        .then(entries => loadWorldData(entries))
+        .catch(err => console.error(err));
+    }
+
+    loadData();
   }, []);
 
-  const sortedEntries = entries
+  const sortedEntries = data
     .slice()
     .sort((a: any, b: any) => a[selectedProp] < b[selectedProp] ? 1 : a[selectedProp] > b[selectedProp] ? -1 : 0)
     .filter((val, idx) => {
       if (showEntries > 0) {
         return idx < showEntries;
       } else {
-        return idx >= entries.length + showEntries;
+        return idx >= data.length + showEntries;
       }
     });
 
@@ -130,3 +136,9 @@ export default function WorldChartsPage() {
     </Paper>
   );
 }
+
+const mapStateToProps = (state: any) => ({
+  data: state.world.data
+});
+
+export default connect(mapStateToProps, { loadWorldData })(WorldChartsPage);
