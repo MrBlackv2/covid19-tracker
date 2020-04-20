@@ -64,7 +64,7 @@ function WorldChartsPage({ data, loadWorldData }: WorldChartsPageProps) {
     }
 
     loadData();
-  }, []);
+  }, [loadWorldData]);
 
   const sortedEntries = data
     .slice()
