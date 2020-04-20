@@ -3,6 +3,16 @@ import { WorldData } from '../types/WorldData';
 import { CurrStateData } from '../types/CurrStateData';
 import { HistStateData } from '../types/HistStateData';
 
+export const setDarkMode = (payload: boolean) => ({
+  type: actionTypes.SET_DARK_MODE,
+  payload
+});
+
+export const setMobileOpen = (payload: boolean) => ({
+  type: actionTypes.SET_MOBILE_OPEN,
+  payload
+});
+
 export const loadWorldData = (payload: WorldData[]) => ({
   type: actionTypes.LOAD_WORLD_DATA,
   payload

@@ -1,20 +1,24 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import { green, blue } from "@material-ui/core/colors";
-import { Provider } from 'react-redux';
+import { connect } from 'react-redux';
 
 import Navbar from './Navbar';
 import AppDrawerContainer from './AppDrawerContainer';
 import Contents from './Contents';
-import store from '../redux/store';
+import { setDarkMode, setMobileOpen } from '../redux/actions';
+
+interface AppProps {
+  darkMode: boolean;
+  setDarkMode: Function;
+  mobileOpen: boolean;
+  setMobileOpen: Function;
+}
 
 const drawerWidth = 220;
 
-function App() {
-  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true');
-  const [mobileOpen, setMobileOpen] = useState(false);
-
+function App({ darkMode, setDarkMode, mobileOpen, setMobileOpen }: AppProps) {
   const theme = createMuiTheme({
     palette: {
       primary: blue,
@@ -49,22 +53,28 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
-          <div className={classes.root}>
-            <Navbar
-              darkMode={darkMode}
-              handleDarkModeChange={handleDarkModeChange}
-              handleDrawerToggle={handleDrawerToggle}
-              drawerWidth={drawerWidth}
-            />
-            <AppDrawerContainer drawerWidth={drawerWidth} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-            <Contents drawerWidth={drawerWidth} />
-          </div>
-        </BrowserRouter>
-      </Provider>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <div className={classes.root}>
+          <Navbar
+            darkMode={darkMode}
+            handleDarkModeChange={handleDarkModeChange}
+            handleDrawerToggle={handleDrawerToggle}
+            drawerWidth={drawerWidth}
+          />
+          <AppDrawerContainer drawerWidth={drawerWidth} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+          <Contents drawerWidth={drawerWidth} />
+        </div>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }
 
-export default App;
+const mapStateToProps = (state: any) => ({
+  darkMode: state.app.darkMode,
+  mobileOpen: state.app.mobileOpen
+});
+
+export default connect(mapStateToProps, {
+  setDarkMode,
+  setMobileOpen
+})(App);
