@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Paper from '@material-ui/core/Paper';
 import FormControl from '@material-ui/core/FormControl';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -11,11 +11,15 @@ import {
 import { connect } from 'react-redux';
 
 import { HistStateData, getHistStateProps } from '../types/HistStateData';
-import { loadHistStateData } from '../redux/actions';
+import { loadHistStateData, setSelectedHistState, setSelectedHistProp } from '../redux/actions';
 
 interface StateChartsPageProps {
   data: HistStateData[];
   loadHistStateData: Function;
+  selectedState: string;
+  setSelectedState: Function;
+  selectedProp: string;
+  setSelectedProp: Function;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -54,10 +58,15 @@ function parseDates(data: any[]) {
   });
 }
 
-function StateChartsPage({ data, loadHistStateData }: StateChartsPageProps) {
+function StateChartsPage({
+  data,
+  loadHistStateData,
+  selectedState,
+  setSelectedState,
+  selectedProp,
+  setSelectedProp
+}: StateChartsPageProps) {
   const classes = useStyles();
-  const [selectedState, setSelectedState] = useState('');
-  const [selectedProp, setSelectedProp] = useState('positive');
 
   const propObj = allProps.find(prop => prop.id === selectedProp);
   const propName = propObj ? propObj.name : selectedProp;
@@ -74,10 +83,7 @@ function StateChartsPage({ data, loadHistStateData }: StateChartsPageProps) {
       fetch('https://covidtracking.com/api/v1/states/daily.json')
         .then(res => res.json())
         .then(entries => parseDates(entries))
-        .then(entries => {
-          loadHistStateData(entries);
-          setSelectedState(entries[0].state);
-        })
+        .then(entries => loadHistStateData(entries))
         .catch(err => console.error(err));
     }
 
@@ -139,7 +145,13 @@ function StateChartsPage({ data, loadHistStateData }: StateChartsPageProps) {
 }
 
 const mapStateToProps = (state: any) => ({
-  data: state.histState.data
+  data: state.histState.data,
+  selectedState: state.histState.selectedState,
+  selectedProp: state.histState.selectedProp
 });
 
-export default connect(mapStateToProps, { loadHistStateData })(StateChartsPage);
+export default connect(mapStateToProps, {
+  loadHistStateData,
+  setSelectedState: setSelectedHistState,
+  setSelectedProp: setSelectedHistProp
+})(StateChartsPage);

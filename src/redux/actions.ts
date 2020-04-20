@@ -17,3 +17,13 @@ export const loadHistStateData = (payload: HistStateData[]) => ({
   type: actionTypes.LOAD_HIST_STATE_DATA,
   payload
 });
+
+export const setSelectedHistState = (payload: string) => ({
+  type: actionTypes.SET_SELECTED_HIST_STATE,
+  payload
+});
+
+export const setSelectedHistProp = (payload: string) => ({
+  type: actionTypes.SET_SELECTED_HIST_PROP,
+  payload
+});
