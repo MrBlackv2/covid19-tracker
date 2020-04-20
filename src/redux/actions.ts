@@ -8,6 +8,16 @@ export const loadWorldData = (payload: WorldData[]) => ({
   payload
 });
 
+export const setSelectedWorldProp = (payload: string) => ({
+  type: actionTypes.SET_SELECTED_WORLD_PROP,
+  payload
+});
+
+export const setNumBars = (payload: number) => ({
+  type: actionTypes.SET_NUM_BARS,
+  payload
+});
+
 export const loadCurrStateData = (payload: CurrStateData[]) => ({
   type: actionTypes.LOAD_CURR_STATE_DATA,
   payload

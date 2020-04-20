@@ -12,12 +12,16 @@ import {
 import { connect } from 'react-redux';
 
 import { WorldData, getWorldDataProps } from '../types/WorldData';
-import { loadWorldData } from '../redux/actions';
+import { loadWorldData, setNumBars, setSelectedWorldProp } from '../redux/actions';
 import Detail from './Detail';
 
 interface WorldChartsPageProps {
   data: WorldData[];
   loadWorldData: Function;
+  selectedProp: string;
+  setSelectedProp: Function;
+  numBars: number;
+  setNumBars: Function;
 }
 
 const allProps = getWorldDataProps();
@@ -46,11 +50,16 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function WorldChartsPage({ data, loadWorldData }: WorldChartsPageProps) {
+function WorldChartsPage({
+  data,
+  loadWorldData,
+  selectedProp,
+  setSelectedProp,
+  numBars,
+  setNumBars
+}: WorldChartsPageProps) {
   const classes  = useStyles();
   const [detailsOpen, setDetailsOpen] = useState<WorldData | null>(null);
-  const [selectedProp, setSelectedProp] = useState(allProps[0].id);
-  const [showEntries, setShowEntries] = useState(10);
 
   const propObj = allProps.find(prop => prop.id === selectedProp);
   const propName = propObj ? propObj.name : selectedProp;
@@ -70,10 +79,10 @@ function WorldChartsPage({ data, loadWorldData }: WorldChartsPageProps) {
     .slice()
     .sort((a: any, b: any) => a[selectedProp] < b[selectedProp] ? 1 : a[selectedProp] > b[selectedProp] ? -1 : 0)
     .filter((val, idx) => {
-      if (showEntries > 0) {
-        return idx < showEntries;
+      if (numBars > 0) {
+        return idx < numBars;
       } else {
-        return idx >= data.length + showEntries;
+        return idx >= data.length + numBars;
       }
     });
 
@@ -92,7 +101,7 @@ function WorldChartsPage({ data, loadWorldData }: WorldChartsPageProps) {
         </FormControl>
         <FormControl className={classes.formControl}>
           <InputLabel>View</InputLabel>
-          <Select value={showEntries} onChange={(ev: any) => setShowEntries(ev.target.value)}>
+          <Select value={numBars} onChange={(ev: any) => setNumBars(ev.target.value)}>
             <MenuItem value={10}>Top 10</MenuItem>
             <MenuItem value={20}>Top 25</MenuItem>
             <MenuItem value={50}>Top 50</MenuItem>
@@ -138,7 +147,13 @@ function WorldChartsPage({ data, loadWorldData }: WorldChartsPageProps) {
 }
 
 const mapStateToProps = (state: any) => ({
-  data: state.world.data
+  data: state.world.data,
+  selectedProp: state.world.selectedProp,
+  numBars: state.world.numBars
 });
 
-export default connect(mapStateToProps, { loadWorldData })(WorldChartsPage);
+export default connect(mapStateToProps, {
+  loadWorldData,
+  setSelectedProp: setSelectedWorldProp,
+  setNumBars
+})(WorldChartsPage);
