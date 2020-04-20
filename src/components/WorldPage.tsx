@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
 
 import DataTable from './DataTable';
 import { WorldData, getWorldDataProps } from '../types/WorldData';
 import { TableHeadCell } from '../types/TableHeadCell';
+import { loadWorldData } from '../redux/actions';
+
+interface WorldPageProps {
+  data: WorldData[];
+  loadWorldData: Function;
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
   worldPage: {
@@ -42,27 +49,26 @@ const headCell = (row: WorldData) => (
   </TableCell>
 );
 
-export default function WorldPage() {
-  const [entries, setEntries] = useState<WorldData[]>([]);
+function WorldPage({ data, loadWorldData }: WorldPageProps) {
   const classes = useStyles();
 
-  const loadEntries = () => {
-    fetch('https://corona.lmao.ninja/v2/countries?sort=cases')
-      .then(res => res.json())
-      .then(entries => setEntries(entries))
-      .catch(err => console.error(err));
-  }
-
   useEffect(() => {
-    loadEntries();
-  }, []);
+    function loadData() {
+      fetch('https://corona.lmao.ninja/v2/countries?sort=cases')
+        .then(res => res.json())
+        .then(entries => loadWorldData(entries))
+        .catch(err => console.error(err));
+    }
+
+    loadData();
+  }, [loadWorldData]);
 
   return (
     <div className={classes.worldPage}>
       <div className={classes.tableHolder}>
         <DataTable
           idKey="country"
-          rows={entries}
+          rows={data}
           headCells={headCells}
           allProps={allProps}
           search={search}
@@ -72,3 +78,9 @@ export default function WorldPage() {
     </div>
   );
 }
+
+const mapStateToProps = (state: any) => ({
+  data: state.world.data
+});
+
+export default connect(mapStateToProps, { loadWorldData })(WorldPage);

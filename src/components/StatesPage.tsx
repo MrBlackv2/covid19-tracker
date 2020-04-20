@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import TableCell from '@material-ui/core/TableCell';
 import { makeStyles, Theme } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
 
 import { CurrStateData, getCurrStateProps } from '../types/CurrStateData';
 import DataTable from './DataTable';
 import { TableHeadCell } from '../types/TableHeadCell';
+import { loadCurrStateData } from '../redux/actions';
+
+interface StatesPageProps {
+  data: CurrStateData[];
+  loadCurrStateData: Function;
+}
 
 const useStyles = makeStyles((theme: Theme) => ({
   statesPage: {
@@ -37,26 +44,38 @@ const headCell = (row: CurrStateData) => (
   </TableCell>
 );
 
-export default function StatesPage() {
-  const [data, setData] = useState<CurrStateData[]>([]);
+function StatesPage({ data, loadCurrStateData }: StatesPageProps) {
   const classes = useStyles();
 
-  const loadEntries = () => {
-    fetch('https://covidtracking.com/api/v1/states/current.json')
-      .then(res => res.json())
-      .then(entries => setData(entries))
-      .catch(err => console.error(err));
-  }
-
   useEffect(() => {
+    function loadEntries() {
+      fetch('https://covidtracking.com/api/v1/states/current.json')
+        .then(res => res.json())
+        .then(entries => loadCurrStateData(entries))
+        .catch(err => console.error(err));
+    }
+
     loadEntries();
-  }, []);
+  }, [loadCurrStateData]);
 
   return (
     <div className={classes.statesPage}>
       <div className={classes.tableHolder}>
-        <DataTable idKey="state" rows={data} headCells={headCells} allProps={allProps} search={search} headCell={headCell} />
+        <DataTable
+          idKey="state"
+          rows={data}
+          headCells={headCells}
+          allProps={allProps}
+          search={search}
+          headCell={headCell}
+        />
       </div>
     </div>
   );
 }
+
+const mapStateToProps = (state: any) => ({
+  data: state.currState.data
+});
+
+export default connect(mapStateToProps, { loadCurrStateData })(StatesPage);

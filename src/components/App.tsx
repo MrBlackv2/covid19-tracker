@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import { green, blue } from "@material-ui/core/colors";
+import { Provider } from 'react-redux';
 
 import Navbar from './Navbar';
 import AppDrawerContainer from './AppDrawerContainer';
 import Contents from './Contents';
+import store from '../redux/store';
 
 const drawerWidth = 220;
 
@@ -47,18 +49,20 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <div className={classes.root}>
-          <Navbar
-            darkMode={darkMode}
-            handleDarkModeChange={handleDarkModeChange}
-            handleDrawerToggle={handleDrawerToggle}
-            drawerWidth={drawerWidth}
-          />
-          <AppDrawerContainer drawerWidth={drawerWidth} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-          <Contents drawerWidth={drawerWidth} />
-        </div>
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
+          <div className={classes.root}>
+            <Navbar
+              darkMode={darkMode}
+              handleDarkModeChange={handleDarkModeChange}
+              handleDrawerToggle={handleDrawerToggle}
+              drawerWidth={drawerWidth}
+            />
+            <AppDrawerContainer drawerWidth={drawerWidth} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
+            <Contents drawerWidth={drawerWidth} />
+          </div>
+        </BrowserRouter>
+      </Provider>
     </ThemeProvider>
   );
 }
