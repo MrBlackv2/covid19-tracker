@@ -6,12 +6,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableRow from '@material-ui/core/TableRow';
 import TablePagination from '@material-ui/core/TablePagination';
 import Modal from '@material-ui/core/Modal';
-import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import { makeStyles, fade } from '@material-ui/core/styles';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
-import FilterIcon from '@material-ui/icons/FilterList';
+import { makeStyles } from '@material-ui/core/styles';
 
 import { WorldData } from '../types/WorldData';
 import DataTableHead from './DataTableHead';
@@ -20,6 +16,7 @@ import TableFilter from './TableFilter';
 import DataTableRow from './DataTableRow';
 import { TableHeadCell } from '../types/TableHeadCell';
 import { FilterProp } from '../types/FilterProp';
+import DataTableToolbar from './DataTableToolbar';
 
 interface DataTableProps {
   rows: any[];
@@ -41,11 +38,6 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: '100%',
     width: '100%'
   },
-  toolbar: {
-    display: 'flex',
-    alignItems: 'center',
-    padding: theme.spacing(1)
-  },
   container: {
     maxHeight: `calc(100% - 52px)`,
   },
@@ -62,40 +54,6 @@ const useStyles = makeStyles((theme) => ({
     position: 'absolute',
     top: 20,
     width: 1
-  },
-  search: {
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: fade(theme.palette.common.white, 0.25)
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: '100%',
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  inputRoot: {
-    color: 'inherit',
-    width: '100%'
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch'
-    }
   }
 }));
 
@@ -162,24 +120,7 @@ export default function DataTable({ rows, headCells, allProps, search, idKey, he
   return (
     <>
       <Paper className={classes.tableRoot}>
-        <div className={classes.toolbar}>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search..."
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              onChange={(ev) => setSearchTerm(ev.target.value)}
-            />
-          </div>
-          <Button onClick={() => setFilterOpen(true)}>
-            <FilterIcon />
-          </Button>
-        </div>
+        <DataTableToolbar setSearchTerm={setSearchTerm} setFilterOpen={setFilterOpen} />
         <TableContainer className={classes.container}>
           <Table
             stickyHeader
@@ -202,7 +143,7 @@ export default function DataTable({ rows, headCells, allProps, search, idKey, he
                 ))}
               {emptyRows > 0 && (
                 <TableRow style={{ height: 53 * emptyRows }}>
-                  <TableCell colSpan={5} />
+                  <TableCell colSpan={activeProps.length + 1} />
                 </TableRow>
               )}
             </TableBody>
