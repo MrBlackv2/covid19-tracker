@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import Hidden from '@material-ui/core/Hidden';
-import Drawer from '@material-ui/core/Drawer';
 import { ThemeProvider, createMuiTheme, makeStyles, createStyles } from '@material-ui/core/styles';
 import { green, blue } from "@material-ui/core/colors";
 
@@ -9,8 +7,8 @@ import Navbar from './Navbar';
 import WorldPage from './WorldPage';
 import WorldChartsPage from './WorldChartsPage';
 import StatesPage from './StatesPage';
-import AppDrawer from './AppDrawer';
 import StateChartsPage from './StateChartsPage';
+import AppDrawerContainer from './AppDrawerContainer';
 
 const drawerWidth = 220;
 
@@ -44,15 +42,6 @@ function App() {
         width: `calc(100% - ${drawerWidth}px)`,
         marginLeft: drawerWidth
       }
-    },
-    drawer: {
-      [theme.breakpoints.up('sm')]: {
-        width: drawerWidth,
-        flexShrink: 0
-      }
-    },
-    drawerPaper: {
-      width: drawerWidth
     }
   }));
 
@@ -77,30 +66,7 @@ function App() {
             handleDrawerToggle={handleDrawerToggle}
             drawerWidth={drawerWidth}
           />
-          <nav className={classes.drawer} aria-label="side nav">
-            <Hidden smUp implementation="css">
-              <Drawer
-                variant="temporary"
-                anchor="left"
-                open={mobileOpen}
-                onClose={handleDrawerToggle}
-                onClick={handleDrawerToggle}
-                classes={{ paper: classes.drawerPaper }}
-                ModalProps={{ keepMounted: true }}
-              >
-                <AppDrawer />
-              </Drawer>
-            </Hidden>
-            <Hidden xsDown implementation="css">
-              <Drawer
-                classes={{ paper: classes.drawerPaper }}
-                variant="permanent"
-                open
-              >
-                <AppDrawer />
-              </Drawer>
-            </Hidden>
-          </nav>
+          <AppDrawerContainer drawerWidth={drawerWidth} mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
           <div className={classes.container}>
             <Switch>
               <Redirect exact path="/" to="/states" />
