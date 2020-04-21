@@ -24,12 +24,13 @@ interface DataTableProps {
   activeProps: string[];
   setActiveProps: Function;
   allProps: FilterProp[];
-  search: Function;
+  search: string;
+  setSearch: Function;
   idKey: string;
   headCell: any;
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   tableRoot: {
     display: 'flex',
     flexDirection: 'column',
@@ -57,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
     top: 20,
     width: 1
   }
-}));
+});
 
 function descendingComparator(a: any, b: any, orderBy: string) {
   if (b[orderBy] < a[orderBy]) {
@@ -85,15 +86,15 @@ function stableSort(array: any[], comparator: Function) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function DataTable({ rows, headCells, activeProps, setActiveProps, allProps, search, idKey, headCell }: DataTableProps) {
+export default function DataTable({ rows, headCells, activeProps, setActiveProps, allProps, search, setSearch, idKey, headCell }: DataTableProps) {
   const classes = useStyles();
+  const [page, setPage] = useState(0);
+  const [detailsOpen, setDetailsOpen] = useState<WorldData | null>(null);
+  const [filterOpen, setFilterOpen] = useState(false);
+
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const [orderBy, setOrderBy] = useState(idKey);
-  const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [detailsOpen, setDetailsOpen] = useState<WorldData | null>(null);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterOpen, setFilterOpen] = useState(false);
 
   const handleRequestSort = (event: any, property: string) => {
     const isDesc = orderBy === property && order === 'desc';
@@ -110,18 +111,14 @@ export default function DataTable({ rows, headCells, activeProps, setActiveProps
     setPage(0);
   };
 
-  const searchedRows = searchTerm.length < 1 ?
-    rows :
-    search(rows, searchTerm);
-
   const emptyRows =
     rowsPerPage -
-    Math.min(rowsPerPage, searchedRows.length - page * rowsPerPage);
+    Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
   return (
     <>
       <Paper className={classes.tableRoot}>
-        <DataTableToolbar setSearchTerm={setSearchTerm} setFilterOpen={setFilterOpen} />
+        <DataTableToolbar searchTerm={search} setSearchTerm={setSearch} setFilterOpen={setFilterOpen} />
         <TableContainer className={classes.container}>
           <Table
             stickyHeader
@@ -137,7 +134,7 @@ export default function DataTable({ rows, headCells, activeProps, setActiveProps
               onRequestSort={handleRequestSort}
             />
             <TableBody>
-              {stableSort(searchedRows, getComparator(order, orderBy))
+              {stableSort(rows, getComparator(order, orderBy))
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row: any, index) => (
                   <DataTableRow key={row[idKey]} row={row} activeProps={activeProps} setDetailsOpen={setDetailsOpen} headCell={headCell} />
@@ -153,7 +150,7 @@ export default function DataTable({ rows, headCells, activeProps, setActiveProps
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={searchedRows.length}
+          count={rows.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onChangePage={handleChangePage}

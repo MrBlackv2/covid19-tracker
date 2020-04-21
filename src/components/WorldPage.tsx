@@ -6,13 +6,15 @@ import { connect } from 'react-redux';
 import DataTable from './DataTable';
 import { WorldData, getWorldDataProps } from '../types/WorldData';
 import { TableHeadCell } from '../types/TableHeadCell';
-import { loadWorldData, setActiveWorldProps } from '../redux/actions';
+import { loadWorldData, setActiveWorldProps, setWorldSearch } from '../redux/actions';
 
 interface WorldPageProps {
   data: WorldData[];
   setData: Function;
   activeProps: string[];
   setActiveProps: Function;
+  search: string;
+  setSearch: Function;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -36,10 +38,6 @@ const allProps = getWorldDataProps();
 const headCells: TableHeadCell[] = [{ id: 'country', label: 'Country', numeric: false }]
   .concat(allProps.map(prop => ({ id: prop.id, label: prop.name, numeric: true })));
 
-function search(entries: WorldData[], searchTerm: string) {
-  return entries.filter(entry => entry.country.toLowerCase().includes(searchTerm.toLowerCase()))
-}
-
 const headCell = (row: WorldData) => (
   <TableCell align="left" style={{ display: "flex", alignItems: "center" }}>
     <img
@@ -51,8 +49,9 @@ const headCell = (row: WorldData) => (
   </TableCell>
 );
 
-function WorldPage({ data, setData, activeProps, setActiveProps }: WorldPageProps) {
+function WorldPage({ data, setData, activeProps, setActiveProps, search, setSearch }: WorldPageProps) {
   const classes = useStyles();
+  const searchedRows = data.filter(item => item.country.toLowerCase().includes(search.toLowerCase()));
 
   useEffect(() => {
     function loadData() {
@@ -70,12 +69,13 @@ function WorldPage({ data, setData, activeProps, setActiveProps }: WorldPageProp
       <div className={classes.tableHolder}>
         <DataTable
           idKey="country"
-          rows={data}
+          rows={searchedRows}
           headCells={headCells}
           activeProps={activeProps}
           setActiveProps={setActiveProps}
           allProps={allProps}
           search={search}
+          setSearch={setSearch}
           headCell={headCell}
         />
       </div>
@@ -85,10 +85,12 @@ function WorldPage({ data, setData, activeProps, setActiveProps }: WorldPageProp
 
 const mapStateToProps = (state: any) => ({
   data: state.world.data,
-  activeProps: state.world.activeProps
+  activeProps: state.world.activeProps,
+  search: state.world.search
 });
 
 export default connect(mapStateToProps, {
   setData: loadWorldData,
-  setActiveProps: setActiveWorldProps
+  setActiveProps: setActiveWorldProps,
+  setSearch: setWorldSearch
 })(WorldPage);

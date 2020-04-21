@@ -33,6 +33,11 @@ export const setNumBars = (payload: number) => ({
   payload
 });
 
+export const setWorldSearch = (payload: string) => ({
+  type: actionTypes.SET_WORLD_SEARCH,
+  payload
+});
+
 export const loadCurrStateData = (payload: CurrStateData[]) => ({
   type: actionTypes.LOAD_CURR_STATE_DATA,
   payload
@@ -40,6 +45,11 @@ export const loadCurrStateData = (payload: CurrStateData[]) => ({
 
 export const setActiveStateProps = (payload: string[]) => ({
   type: actionTypes.SET_ACTIVE_STATE_PROPS,
+  payload
+});
+
+export const setStateSearch = (payload: string) => ({
+  type: actionTypes.SET_STATE_SEARCH,
   payload
 });
 

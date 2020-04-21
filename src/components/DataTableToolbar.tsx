@@ -6,6 +6,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import FilterIcon from '@material-ui/icons/FilterList';
 
 interface DataTableToolbarProps {
+  searchTerm: string;
   setSearchTerm: Function;
   setFilterOpen: Function;
 }
@@ -52,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function DataTableToolbar({ setSearchTerm, setFilterOpen }: DataTableToolbarProps) {
+export default function DataTableToolbar({ searchTerm, setSearchTerm, setFilterOpen }: DataTableToolbarProps) {
   const classes = useStyles();
 
   return (
@@ -67,6 +68,7 @@ export default function DataTableToolbar({ setSearchTerm, setFilterOpen }: DataT
             root: classes.inputRoot,
             input: classes.inputInput,
           }}
+          value={searchTerm}
           onChange={(ev) => setSearchTerm(ev.target.value)}
         />
       </div>
