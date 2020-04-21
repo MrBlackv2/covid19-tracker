@@ -1,7 +1,9 @@
-import { LOAD_CURR_STATE_DATA } from '../actionTypes';
+import { LOAD_CURR_STATE_DATA, SET_ACTIVE_STATE_PROPS } from '../actionTypes';
+import { getCurrStateProps } from '../../types/CurrStateData';
 
 const initialState = {
-  data: []
+  data: [],
+  activeProps: getCurrStateProps().map(prop => prop.id)
 };
 
 export default function(state = initialState, action: { type: string, payload?: any }) {
@@ -10,6 +12,11 @@ export default function(state = initialState, action: { type: string, payload?: 
       return {
         ...state,
         data: action.payload
+      };
+    case SET_ACTIVE_STATE_PROPS:
+      return {
+        ...state,
+        activeProps: action.payload
       };
     default:
       return state;

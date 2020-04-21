@@ -21,6 +21,8 @@ import DataTableToolbar from './DataTableToolbar';
 interface DataTableProps {
   rows: any[];
   headCells: TableHeadCell[];
+  activeProps: string[];
+  setActiveProps: Function;
   allProps: FilterProp[];
   search: Function;
   idKey: string;
@@ -83,7 +85,7 @@ function stableSort(array: any[], comparator: Function) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function DataTable({ rows, headCells, allProps, search, idKey, headCell }: DataTableProps) {
+export default function DataTable({ rows, headCells, activeProps, setActiveProps, allProps, search, idKey, headCell }: DataTableProps) {
   const classes = useStyles();
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const [orderBy, setOrderBy] = useState(idKey);
@@ -92,7 +94,6 @@ export default function DataTable({ rows, headCells, allProps, search, idKey, he
   const [detailsOpen, setDetailsOpen] = useState<WorldData | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterOpen, setFilterOpen] = useState(false);
-  const [activeProps, setActiveProps] = useState(allProps.map(prop => prop.id));
 
   const handleRequestSort = (event: any, property: string) => {
     const isDesc = orderBy === property && order === 'desc';

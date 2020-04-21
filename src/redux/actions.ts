@@ -18,6 +18,11 @@ export const loadWorldData = (payload: WorldData[]) => ({
   payload
 });
 
+export const setActiveWorldProps = (payload: string[]) => ({
+  type: actionTypes.SET_ACTIVE_WORLD_PROPS,
+  payload
+});
+
 export const setSelectedWorldProp = (payload: string) => ({
   type: actionTypes.SET_SELECTED_WORLD_PROP,
   payload
@@ -30,6 +35,11 @@ export const setNumBars = (payload: number) => ({
 
 export const loadCurrStateData = (payload: CurrStateData[]) => ({
   type: actionTypes.LOAD_CURR_STATE_DATA,
+  payload
+});
+
+export const setActiveStateProps = (payload: string[]) => ({
+  type: actionTypes.SET_ACTIVE_STATE_PROPS,
   payload
 });
 

@@ -6,11 +6,13 @@ import { connect } from 'react-redux';
 import DataTable from './DataTable';
 import { WorldData, getWorldDataProps } from '../types/WorldData';
 import { TableHeadCell } from '../types/TableHeadCell';
-import { loadWorldData } from '../redux/actions';
+import { loadWorldData, setActiveWorldProps } from '../redux/actions';
 
 interface WorldPageProps {
   data: WorldData[];
-  loadWorldData: Function;
+  setData: Function;
+  activeProps: string[];
+  setActiveProps: Function;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -49,19 +51,19 @@ const headCell = (row: WorldData) => (
   </TableCell>
 );
 
-function WorldPage({ data, loadWorldData }: WorldPageProps) {
+function WorldPage({ data, setData, activeProps, setActiveProps }: WorldPageProps) {
   const classes = useStyles();
 
   useEffect(() => {
     function loadData() {
       fetch('https://corona.lmao.ninja/v2/countries?sort=cases')
         .then(res => res.json())
-        .then(entries => loadWorldData(entries))
+        .then(entries => setData(entries))
         .catch(err => console.error(err));
     }
 
     loadData();
-  }, [loadWorldData]);
+  }, [setData]);
 
   return (
     <div className={classes.worldPage}>
@@ -70,6 +72,8 @@ function WorldPage({ data, loadWorldData }: WorldPageProps) {
           idKey="country"
           rows={data}
           headCells={headCells}
+          activeProps={activeProps}
+          setActiveProps={setActiveProps}
           allProps={allProps}
           search={search}
           headCell={headCell}
@@ -80,7 +84,11 @@ function WorldPage({ data, loadWorldData }: WorldPageProps) {
 }
 
 const mapStateToProps = (state: any) => ({
-  data: state.world.data
+  data: state.world.data,
+  activeProps: state.world.activeProps
 });
 
-export default connect(mapStateToProps, { loadWorldData })(WorldPage);
+export default connect(mapStateToProps, {
+  setData: loadWorldData,
+  setActiveProps: setActiveWorldProps
+})(WorldPage);

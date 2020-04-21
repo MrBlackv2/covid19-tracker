@@ -6,11 +6,13 @@ import { connect } from 'react-redux';
 import { CurrStateData, getCurrStateProps } from '../types/CurrStateData';
 import DataTable from './DataTable';
 import { TableHeadCell } from '../types/TableHeadCell';
-import { loadCurrStateData } from '../redux/actions';
+import { loadCurrStateData, setActiveStateProps } from '../redux/actions';
 
 interface StatesPageProps {
   data: CurrStateData[];
-  loadCurrStateData: Function;
+  setData: Function;
+  activeProps: string[];
+  setActiveProps: Function;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -44,19 +46,19 @@ const headCell = (row: CurrStateData) => (
   </TableCell>
 );
 
-function StatesPage({ data, loadCurrStateData }: StatesPageProps) {
+function StatesPage({ data, setData, activeProps, setActiveProps }: StatesPageProps) {
   const classes = useStyles();
 
   useEffect(() => {
     function loadEntries() {
       fetch('https://covidtracking.com/api/v1/states/current.json')
         .then(res => res.json())
-        .then(entries => loadCurrStateData(entries))
+        .then(entries => setData(entries))
         .catch(err => console.error(err));
     }
 
     loadEntries();
-  }, [loadCurrStateData]);
+  }, [setData]);
 
   return (
     <div className={classes.statesPage}>
@@ -65,6 +67,8 @@ function StatesPage({ data, loadCurrStateData }: StatesPageProps) {
           idKey="state"
           rows={data}
           headCells={headCells}
+          activeProps={activeProps}
+          setActiveProps={setActiveProps}
           allProps={allProps}
           search={search}
           headCell={headCell}
@@ -75,7 +79,11 @@ function StatesPage({ data, loadCurrStateData }: StatesPageProps) {
 }
 
 const mapStateToProps = (state: any) => ({
-  data: state.currState.data
+  data: state.currState.data,
+  activeProps: state.currState.activeProps
 });
 
-export default connect(mapStateToProps, { loadCurrStateData })(StatesPage);
+export default connect(mapStateToProps, {
+  setData: loadCurrStateData,
+  setActiveProps: setActiveStateProps
+})(StatesPage);
