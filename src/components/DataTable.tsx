@@ -8,6 +8,7 @@ import TablePagination from '@material-ui/core/TablePagination';
 import Modal from '@material-ui/core/Modal';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
 
 import { WorldData } from '../types/WorldData';
 import DataTableHead from './DataTableHead';
@@ -17,6 +18,7 @@ import DataTableRow from './DataTableRow';
 import { TableHeadCell } from '../types/TableHeadCell';
 import { FilterProp } from '../types/FilterProp';
 import DataTableToolbar from './DataTableToolbar';
+import { setRowsPerPage } from '../redux/actions';
 
 interface DataTableProps {
   rows: any[];
@@ -28,6 +30,8 @@ interface DataTableProps {
   setSearch: Function;
   idKey: string;
   headCell: any;
+  rowsPerPage: number;
+  setRowsPerPage: Function;
 }
 
 const useStyles = makeStyles({
@@ -86,7 +90,19 @@ function stableSort(array: any[], comparator: Function) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function DataTable({ rows, headCells, activeProps, setActiveProps, allProps, search, setSearch, idKey, headCell }: DataTableProps) {
+function DataTable({
+  rows,
+  headCells,
+  activeProps,
+  setActiveProps,
+  allProps,
+  search,
+  setSearch,
+  idKey,
+  headCell,
+  rowsPerPage,
+  setRowsPerPage
+}: DataTableProps) {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [detailsOpen, setDetailsOpen] = useState<WorldData | null>(null);
@@ -94,7 +110,6 @@ export default function DataTable({ rows, headCells, activeProps, setActiveProps
 
   const [order, setOrder] = useState<'asc' | 'desc'>('asc');
   const [orderBy, setOrderBy] = useState(idKey);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const handleRequestSort = (event: any, property: string) => {
     const isDesc = orderBy === property && order === 'desc';
@@ -175,3 +190,11 @@ export default function DataTable({ rows, headCells, activeProps, setActiveProps
     </>
   );
 }
+
+const mapStateToProps = (state: any) => ({
+  rowsPerPage: state.app.rowsPerPage
+});
+
+export default connect(mapStateToProps, {
+  setRowsPerPage
+})(DataTable);

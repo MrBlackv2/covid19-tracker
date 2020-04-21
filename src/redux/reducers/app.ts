@@ -1,8 +1,9 @@
-import { SET_MOBILE_OPEN, SET_DARK_MODE } from '../actionTypes';
+import { SET_MOBILE_OPEN, SET_DARK_MODE, SET_ROWS_PER_PAGE } from '../actionTypes';
 
 const initialState = {
   darkMode: localStorage.getItem('darkMode') === 'true',
-  mobileOpen: false
+  mobileOpen: false,
+  rowsPerPage: 10
 };
 
 export default function (state = initialState, action: { type: string, payload?: any }) {
@@ -16,6 +17,11 @@ export default function (state = initialState, action: { type: string, payload?:
       return {
         ...state,
         mobileOpen: action.payload
+      };
+    case SET_ROWS_PER_PAGE:
+      return {
+        ...state,
+        rowsPerPage: action.payload
       };
     default:
       return state;

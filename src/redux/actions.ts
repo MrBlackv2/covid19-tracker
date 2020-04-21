@@ -13,6 +13,11 @@ export const setMobileOpen = (payload: boolean) => ({
   payload
 });
 
+export const setRowsPerPage = (payload: number) => ({
+  type: actionTypes.SET_ROWS_PER_PAGE,
+  payload
+});
+
 export const loadWorldData = (payload: WorldData[]) => ({
   type: actionTypes.LOAD_WORLD_DATA,
   payload
