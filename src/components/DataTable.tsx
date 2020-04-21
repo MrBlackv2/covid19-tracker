@@ -32,6 +32,10 @@ interface DataTableProps {
   headCell: any;
   rowsPerPage: number;
   setRowsPerPage: Function;
+  order: 'asc' | 'desc';
+  setOrder: Function;
+  orderBy: string;
+  setOrderBy: Function;
 }
 
 const useStyles = makeStyles({
@@ -101,15 +105,16 @@ function DataTable({
   idKey,
   headCell,
   rowsPerPage,
-  setRowsPerPage
+  setRowsPerPage,
+  order,
+  setOrder,
+  orderBy,
+  setOrderBy
 }: DataTableProps) {
   const classes = useStyles();
   const [page, setPage] = useState(0);
   const [detailsOpen, setDetailsOpen] = useState<WorldData | null>(null);
   const [filterOpen, setFilterOpen] = useState(false);
-
-  const [order, setOrder] = useState<'asc' | 'desc'>('asc');
-  const [orderBy, setOrderBy] = useState(idKey);
 
   const handleRequestSort = (event: any, property: string) => {
     const isDesc = orderBy === property && order === 'desc';

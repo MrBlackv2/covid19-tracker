@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { CurrStateData, getCurrStateProps } from '../types/CurrStateData';
 import DataTable from './DataTable';
 import { TableHeadCell } from '../types/TableHeadCell';
-import { loadCurrStateData, setActiveStateProps, setStateSearch } from '../redux/actions';
+import { loadCurrStateData, setActiveStateProps, setStateSearch, setStateOrder, setStateOrderBy } from '../redux/actions';
 
 interface StatesPageProps {
   data: CurrStateData[];
@@ -15,6 +15,10 @@ interface StatesPageProps {
   setActiveProps: Function;
   search: string;
   setSearch: Function;
+  order: 'asc' | 'desc';
+  setOrder: Function;
+  orderBy: string;
+  setOrderBy: Function;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -44,7 +48,18 @@ const headCell = (row: CurrStateData) => (
   </TableCell>
 );
 
-function StatesPage({ data, setData, activeProps, setActiveProps, search, setSearch }: StatesPageProps) {
+function StatesPage({
+  data,
+  setData,
+  activeProps,
+  setActiveProps,
+  search,
+  setSearch,
+  order,
+  setOrder,
+  orderBy,
+  setOrderBy
+}: StatesPageProps) {
   const classes = useStyles();
   const searchedRows = data.filter(item => item.state.toLowerCase().includes(search.toLowerCase()));
 
@@ -72,6 +87,10 @@ function StatesPage({ data, setData, activeProps, setActiveProps, search, setSea
           search={search}
           setSearch={setSearch}
           headCell={headCell}
+          order={order}
+          setOrder={setOrder}
+          orderBy={orderBy}
+          setOrderBy={setOrderBy}
         />
       </div>
     </div>
@@ -81,11 +100,15 @@ function StatesPage({ data, setData, activeProps, setActiveProps, search, setSea
 const mapStateToProps = (state: any) => ({
   data: state.currState.data,
   activeProps: state.currState.activeProps,
-  search: state.currState.search
+  search: state.currState.search,
+  order: state.currState.order,
+  orderBy: state.currState.orderBy
 });
 
 export default connect(mapStateToProps, {
   setData: loadCurrStateData,
   setActiveProps: setActiveStateProps,
-  setSearch: setStateSearch
+  setSearch: setStateSearch,
+  setOrder: setStateOrder,
+  setOrderBy: setStateOrderBy
 })(StatesPage);

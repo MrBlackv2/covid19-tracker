@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import DataTable from './DataTable';
 import { WorldData, getWorldDataProps } from '../types/WorldData';
 import { TableHeadCell } from '../types/TableHeadCell';
-import { loadWorldData, setActiveWorldProps, setWorldSearch } from '../redux/actions';
+import { loadWorldData, setActiveWorldProps, setWorldSearch, setWorldOrder, setWorldOrderBy } from '../redux/actions';
 
 interface WorldPageProps {
   data: WorldData[];
@@ -15,6 +15,10 @@ interface WorldPageProps {
   setActiveProps: Function;
   search: string;
   setSearch: Function;
+  order: 'asc' | 'desc';
+  setOrder: Function;
+  orderBy: string;
+  setOrderBy: Function;
 }
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -49,7 +53,18 @@ const headCell = (row: WorldData) => (
   </TableCell>
 );
 
-function WorldPage({ data, setData, activeProps, setActiveProps, search, setSearch }: WorldPageProps) {
+function WorldPage({
+  data,
+  setData,
+  activeProps,
+  setActiveProps,
+  search,
+  setSearch,
+  order,
+  setOrder,
+  orderBy,
+  setOrderBy
+}: WorldPageProps) {
   const classes = useStyles();
   const searchedRows = data.filter(item => item.country.toLowerCase().includes(search.toLowerCase()));
 
@@ -77,6 +92,10 @@ function WorldPage({ data, setData, activeProps, setActiveProps, search, setSear
           search={search}
           setSearch={setSearch}
           headCell={headCell}
+          order={order}
+          setOrder={setOrder}
+          orderBy={orderBy}
+          setOrderBy={setOrderBy}
         />
       </div>
     </div>
@@ -86,11 +105,15 @@ function WorldPage({ data, setData, activeProps, setActiveProps, search, setSear
 const mapStateToProps = (state: any) => ({
   data: state.world.data,
   activeProps: state.world.activeProps,
-  search: state.world.search
+  search: state.world.search,
+  order: state.world.order,
+  orderBy: state.world.orderBy
 });
 
 export default connect(mapStateToProps, {
   setData: loadWorldData,
   setActiveProps: setActiveWorldProps,
-  setSearch: setWorldSearch
+  setSearch: setWorldSearch,
+  setOrder: setWorldOrder,
+  setOrderBy: setWorldOrderBy
 })(WorldPage);

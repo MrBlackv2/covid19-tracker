@@ -3,6 +3,8 @@ import { WorldData } from '../types/WorldData';
 import { CurrStateData } from '../types/CurrStateData';
 import { HistStateData } from '../types/HistStateData';
 
+// App
+
 export const setDarkMode = (payload: boolean) => ({
   type: actionTypes.SET_DARK_MODE,
   payload
@@ -17,6 +19,8 @@ export const setRowsPerPage = (payload: number) => ({
   type: actionTypes.SET_ROWS_PER_PAGE,
   payload
 });
+
+// World
 
 export const loadWorldData = (payload: WorldData[]) => ({
   type: actionTypes.LOAD_WORLD_DATA,
@@ -43,6 +47,18 @@ export const setWorldSearch = (payload: string) => ({
   payload
 });
 
+export const setWorldOrderBy  = (payload: string) => ({
+  type: actionTypes.SET_WORLD_ORDER_BY,
+  payload
+});
+
+export const setWorldOrder = (payload: 'asc' | 'desc') => ({
+  type: actionTypes.SET_WORLD_ORDER,
+  payload
+});
+
+// Curr State
+
 export const loadCurrStateData = (payload: CurrStateData[]) => ({
   type: actionTypes.LOAD_CURR_STATE_DATA,
   payload
@@ -57,6 +73,18 @@ export const setStateSearch = (payload: string) => ({
   type: actionTypes.SET_STATE_SEARCH,
   payload
 });
+
+export const setStateOrderBy = (payload: string) => ({
+  type: actionTypes.SET_STATE_ORDER_BY,
+  payload
+});
+
+export const setStateOrder = (payload: 'asc' | 'desc') => ({
+  type: actionTypes.SET_STATE_ORDER,
+  payload
+});
+
+// Hist State
 
 export const loadHistStateData = (payload: HistStateData[]) => ({
   type: actionTypes.LOAD_HIST_STATE_DATA,
