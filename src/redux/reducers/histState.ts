@@ -3,7 +3,7 @@ import { LOAD_HIST_STATE_DATA, SET_SELECTED_HIST_STATE, SET_SELECTED_HIST_PROP, 
 const initialState = {
   data: [],
   states: [],
-  selectedState: 'AK',
+  selectedState: 'US',
   selectedProp: 'positive'
 };
 
@@ -12,7 +12,7 @@ export default function (state = initialState, action: { type: string, payload?:
     case LOAD_STATES:
       return {
         ...state,
-        states: action.payload
+        states: [{ state: 'US', name: 'United States'}].concat(action.payload)
       };
     case LOAD_HIST_STATE_DATA:
       return {
