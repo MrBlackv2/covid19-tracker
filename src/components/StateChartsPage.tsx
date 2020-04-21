@@ -11,9 +11,12 @@ import {
 import { connect } from 'react-redux';
 
 import { HistStateData, getHistStateProps } from '../types/HistStateData';
-import { loadHistStateData, setSelectedHistState, setSelectedHistProp } from '../redux/actions';
+import { loadStates, loadHistStateData, setSelectedHistState, setSelectedHistProp } from '../redux/actions';
+import { StateInfo } from '../types/StateInfo';
 
 interface StateChartsPageProps {
+  states: StateInfo[];
+  loadStates: Function;
   data: HistStateData[];
   loadHistStateData: Function;
   selectedState: string;
@@ -59,6 +62,8 @@ function parseDates(data: any[]) {
 }
 
 function StateChartsPage({
+  states,
+  loadStates,
   data,
   loadHistStateData,
   selectedState,
@@ -71,16 +76,22 @@ function StateChartsPage({
   const propObj = allProps.find(prop => prop.id === selectedProp);
   const propName = propObj ? propObj.name : selectedProp;
 
-  const stateSet = data.reduce((allStates, item) => {
-    allStates.add(item.state);
-    return allStates;
-  }, new Set<string>());
+  useEffect(() => {
+    function loadData() {
+      fetch(`https://covidtracking.com/api/v1/states/info.json`)
+        .then(res => res.json())
+        .then(items => loadStates(items.map((item: any) => ({ state: item.state, name: item.name }))))
+        .catch(err => console.error(err));
+    }
 
-  const allStates = Array.from(stateSet);
+    if (states.length === 0) {
+      loadData();
+    }
+  }, [states, loadStates]);
 
   useEffect(() => {
     function loadData() {
-      fetch('https://covidtracking.com/api/v1/states/daily.json')
+      fetch(`https://covidtracking.com/api/v1/states/${selectedState}/daily.json`)
         .then(res => res.json())
         .then(entries => parseDates(entries))
         .then(entries => loadHistStateData(entries))
@@ -88,7 +99,7 @@ function StateChartsPage({
     }
 
     loadData();
-  }, [loadHistStateData]);
+  }, [selectedState, loadHistStateData]);
 
   const filteredData = data
     .slice()
@@ -102,9 +113,9 @@ function StateChartsPage({
         <FormControl className={classes.formControl}>
           <InputLabel>State</InputLabel>
           <Select value={selectedState} onChange={(ev: any) => setSelectedState(ev.target.value)}>
-            {allStates.map((state: string) => (
-              <MenuItem value={state} key={state}>
-                {state}
+            {states.map((item: StateInfo) => (
+              <MenuItem value={item.state} key={item.state}>
+                {item.name}
               </MenuItem>
             ))}
           </Select>
@@ -145,12 +156,14 @@ function StateChartsPage({
 }
 
 const mapStateToProps = (state: any) => ({
+  states: state.histState.states,
   data: state.histState.data,
   selectedState: state.histState.selectedState,
   selectedProp: state.histState.selectedProp
 });
 
 export default connect(mapStateToProps, {
+  loadStates,
   loadHistStateData,
   setSelectedState: setSelectedHistState,
   setSelectedProp: setSelectedHistProp

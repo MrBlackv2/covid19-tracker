@@ -2,6 +2,7 @@ import * as actionTypes from './actionTypes';
 import { WorldData } from '../types/WorldData';
 import { CurrStateData } from '../types/CurrStateData';
 import { HistStateData } from '../types/HistStateData';
+import { StateInfo } from '../types/StateInfo';
 
 // App
 
@@ -85,6 +86,11 @@ export const setStateOrder = (payload: 'asc' | 'desc') => ({
 });
 
 // Hist State
+
+export const loadStates = (payload: StateInfo[]) => ({
+  type: actionTypes.LOAD_STATES,
+  payload
+});
 
 export const loadHistStateData = (payload: HistStateData[]) => ({
   type: actionTypes.LOAD_HIST_STATE_DATA,

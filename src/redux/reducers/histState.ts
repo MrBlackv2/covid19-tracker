@@ -1,22 +1,23 @@
-import { LOAD_HIST_STATE_DATA, SET_SELECTED_HIST_STATE, SET_SELECTED_HIST_PROP } from '../actionTypes';
+import { LOAD_HIST_STATE_DATA, SET_SELECTED_HIST_STATE, SET_SELECTED_HIST_PROP, LOAD_STATES } from '../actionTypes';
 
 const initialState = {
   data: [],
-  selectedState: '',
+  states: [],
+  selectedState: 'AK',
   selectedProp: 'positive'
 };
 
 export default function (state = initialState, action: { type: string, payload?: any }) {
   switch (action.type) {
-    case LOAD_HIST_STATE_DATA:
-      let selectedState = state.selectedState;
-      if (action.payload && action.payload.length > 0 && state.selectedState === '') {
-        selectedState = action.payload[0].state;
-      }
+    case LOAD_STATES:
       return {
         ...state,
-        data: action.payload,
-        selectedState
+        states: action.payload
+      };
+    case LOAD_HIST_STATE_DATA:
+      return {
+        ...state,
+        data: action.payload
       };
     case SET_SELECTED_HIST_STATE:
       return {

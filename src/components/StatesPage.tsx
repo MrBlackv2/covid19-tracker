@@ -6,9 +6,12 @@ import { connect } from 'react-redux';
 import { CurrStateData, getCurrStateProps } from '../types/CurrStateData';
 import DataTable from './DataTable';
 import { TableHeadCell } from '../types/TableHeadCell';
-import { loadCurrStateData, setActiveStateProps, setStateSearch, setStateOrder, setStateOrderBy } from '../redux/actions';
+import { loadCurrStateData, setActiveStateProps, setStateSearch, setStateOrder, setStateOrderBy, loadStates } from '../redux/actions';
+import { StateInfo } from '../types/StateInfo';
 
 interface StatesPageProps {
+  states: StateInfo[];
+  loadStates: Function;
   data: CurrStateData[];
   setData: Function;
   activeProps: string[];
@@ -42,13 +45,9 @@ const allProps = getCurrStateProps();
 const headCells: TableHeadCell[] = [{ id: 'state', label: 'State', numeric: false }]
   .concat(allProps.map(prop => ({ id: prop.id, label: prop.name, numeric: true })));
 
-const headCell = (row: CurrStateData) => (
-  <TableCell align="left" style={{ display: "flex", alignItems: "center" }}>
-    {row.state}
-  </TableCell>
-);
-
 function StatesPage({
+  states,
+  loadStates,
   data,
   setData,
   activeProps,
@@ -62,6 +61,25 @@ function StatesPage({
 }: StatesPageProps) {
   const classes = useStyles();
   const searchedRows = data.filter(item => item.state.toLowerCase().includes(search.toLowerCase()));
+
+  const headCell = (row: CurrStateData) => (
+    <TableCell align="left" style={{ display: "flex", alignItems: "center" }}>
+      {states.find(item => item.state === row.state)?.name}
+    </TableCell>
+  );
+
+  useEffect(() => {
+    function loadData() {
+      fetch(`https://covidtracking.com/api/v1/states/info.json`)
+        .then(res => res.json())
+        .then(items => loadStates(items.map((item: any) => ({ state: item.state, name: item.name }))))
+        .catch(err => console.error(err));
+    }
+
+    if (states.length === 0) {
+      loadData();
+    }
+  }, [states, loadStates]);
 
   useEffect(() => {
     function loadEntries() {
@@ -98,6 +116,7 @@ function StatesPage({
 }
 
 const mapStateToProps = (state: any) => ({
+  states: state.histState.states,
   data: state.currState.data,
   activeProps: state.currState.activeProps,
   search: state.currState.search,
@@ -106,6 +125,7 @@ const mapStateToProps = (state: any) => ({
 });
 
 export default connect(mapStateToProps, {
+  loadStates: loadStates,
   setData: loadCurrStateData,
   setActiveProps: setActiveStateProps,
   setSearch: setStateSearch,
