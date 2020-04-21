@@ -31,17 +31,17 @@ export interface CurrStateData {
 
 export function getCurrStateProps(): { id: string, name: string }[] {
   return [
-    { id: "positive", name: "Cases" },
-    { id: "negative", name: "Negatives" },
-    { id: "grade", name: "Grade" },
-    { id: "hospitalizedCurrently", name: "Hospitalized (Current)" },
-    { id: "hospitalizedCumulative", name: "Hospitalized (Cum.)" },
-    { id: "inIcuCurrently", name: "In ICU (Current)" },
-    { id: "inIcuCumulative", name: "In ICU (Cum.)" },
-    { id: "onVentilatorCurrently", name: "On Ventilator (Current)" },
-    { id: "onVentilatorCumulative", name: "On Ventilator (Cum.)" },
-    { id: "recovered", name: "Recovered" },
-    { id: "death", name: "Deaths" },
-    { id: "totalTestResults", name: "Total Tests" },
+    { id: 'positive', name: 'Cases' },
+    { id: 'negative', name: 'Negatives' },
+    { id: 'grade', name: 'Grade' },
+    { id: 'hospitalizedCurrently', name: 'Hospitalized (Current)' },
+    { id: 'hospitalizedCumulative', name: 'Hospitalized (Cum.)' },
+    { id: 'inIcuCurrently', name: 'In ICU (Current)' },
+    { id: 'inIcuCumulative', name: 'In ICU (Cum.)' },
+    { id: 'onVentilatorCurrently', name: 'On Ventilator (Current)' },
+    { id: 'onVentilatorCumulative', name: 'On Ventilator (Cum.)' },
+    { id: 'recovered', name: 'Recovered' },
+    { id: 'death', name: 'Deaths' },
+    { id: 'totalTestResults', name: 'Total Tests' },
   ];
 }

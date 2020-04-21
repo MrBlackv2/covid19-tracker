@@ -41,6 +41,7 @@ export function getHistStateProps(): { id: string, name: string }[] {
     { id: 'onVentilatorCumulative', name: 'On Ventilator (Cum.)' },
     { id: 'recovered', name: 'Recovered' },
     { id: 'death', name: 'Deaths' },
+    { id: 'deathIncrease', name: 'New Deaths' },
     { id: 'totalTestResults', name: 'Total Tests' },
     { id: 'totalTestResultsIncrease', name: 'Total Tests Increase' }
   ];
