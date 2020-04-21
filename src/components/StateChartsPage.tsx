@@ -103,7 +103,6 @@ function StateChartsPage({
 
   const filteredData = data
     .slice()
-    .filter(item => item.state === selectedState)
     .sort((a, b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0)
     .map(item => ({ ...item, date: (item.date as Date).toLocaleDateString() }));
 
