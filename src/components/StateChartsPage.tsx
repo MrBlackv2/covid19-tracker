@@ -49,8 +49,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'relative',
     height: '100%',
     width: '100%',
-    minHeight: '500px',
-    border: '1px solid red'
+    minHeight: '400px'
   }
 }));
 
