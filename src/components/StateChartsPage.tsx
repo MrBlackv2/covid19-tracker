@@ -48,7 +48,9 @@ const useStyles = makeStyles((theme) => ({
     padding: 10,
     position: 'relative',
     height: '100%',
-    width: '100%'
+    width: '100%',
+    minHeight: '100%',
+    border: '1px solid red'
   }
 }));
 
