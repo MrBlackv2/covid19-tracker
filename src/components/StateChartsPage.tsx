@@ -45,7 +45,8 @@ const useStyles = makeStyles((theme) => ({
   },
   chart: {
     flex: '1 1 auto',
-    padding: 10
+    padding: 10,
+    position: 'relative'
   }
 }));
 
@@ -134,7 +135,7 @@ function StateChartsPage({
       </div>
 
       <div className={classes.chart}>
-        <ResponsiveContainer height="100%">
+        <ResponsiveContainer>
           <LineChart
             data={filteredData}
             margin={{
