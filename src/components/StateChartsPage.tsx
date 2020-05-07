@@ -45,7 +45,8 @@ const useStyles = makeStyles((theme) => ({
   },
   chart: {
     flex: '1 1 auto',
-    padding: 10
+    padding: 10,
+    border: '1px solid red'
   }
 }));
 
