@@ -96,7 +96,7 @@ function StateChartsPage({
   useEffect(() => {
     function loadData() {
       let url = 'https://covidtracking.com/api/v1/';
-      url += selectedState === 'US' ? 'us/daily.json' : `states/${selectedState}/daily.json`;
+      url += selectedState === 'US' ? 'us/daily.json' : `states/${selectedState.toLowerCase()}/daily.json`;
       fetch(url)
         .then(res => res.json())
         .then(entries => parseDates(entries))
