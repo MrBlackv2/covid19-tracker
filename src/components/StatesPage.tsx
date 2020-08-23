@@ -70,7 +70,7 @@ function StatesPage({
 
   useEffect(() => {
     function loadData() {
-      fetch(`https://covidtracking.com/api/v1/states/info.json`)
+      fetch(`https://api.covidtracking.com/v1/states/info.json`)
         .then(res => res.json())
         .then(items => loadStates(items.map((item: any) => ({ state: item.state, name: item.name }))))
         .catch(err => console.error(err));
@@ -83,7 +83,7 @@ function StatesPage({
 
   useEffect(() => {
     function loadEntries() {
-      fetch('https://covidtracking.com/api/v1/states/current.json')
+      fetch('https://api.covidtracking.com/v1/states/current.json')
         .then(res => res.json())
         .then(entries => setData(entries))
         .catch(err => console.error(err));
